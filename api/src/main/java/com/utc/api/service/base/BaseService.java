@@ -6,6 +6,7 @@ import com.utc.api.exception.ApiException;
 import java.util.List;
 
 public interface BaseService<T extends BaseEntity> {
+
     T create(T t);
     T find(Long id) throws ApiException;
     List<T> list();

@@ -1,10 +1,14 @@
 package com.utc.api.dto.request;
 
-import com.utc.api.filter.annotation.Username;
+import com.utc.api.exception.ApiException;
+import com.utc.api.exception.ErrorCode;
+import com.utc.api.annotation.Username;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Objects;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,6 +23,8 @@ public class RegisterRequest {
     private String confirmPassword;
 
     public void validate() {
-
+        if (!Objects.equals(password, confirmPassword)) {
+            throw new ApiException(ErrorCode.PARAMETER_ERROR);
+        }
     }
 }

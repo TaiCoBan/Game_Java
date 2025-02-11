@@ -1,7 +1,6 @@
 package com.utc.api.entity;
 
 import com.utc.api.entity.base.BaseEntity;
-import com.utc.api.filter.annotation.Username;
 import jakarta.persistence.Entity;
 import lombok.*;
 
@@ -13,7 +12,6 @@ import lombok.*;
 public class Account extends BaseEntity {
 
     private String email;
-    @Username
     private String username;
     private String password;
 }
