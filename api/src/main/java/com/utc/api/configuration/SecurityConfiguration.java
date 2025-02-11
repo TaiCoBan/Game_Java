@@ -1,15 +1,15 @@
 package com.utc.api.configuration;
 
-import org.springframework.context.ApplicationContext;
+import com.utc.api.security.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.validation.Validator;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-import org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory;
 
 @Configuration
 @EnableWebSecurity
@@ -18,14 +18,35 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(requests -> requests
+                                                   // PUBLIC
                                                    .requestMatchers("/accounts/register").permitAll()
                                                    .requestMatchers("/accounts/**").permitAll()
+
+                                                   // ADMIN
+                                                   .requestMatchers("/admin").hasRole("ADMIN")
+
+                                                   // USER
+                                                   .requestMatchers("/user").hasRole("USER")
                                                    .anyRequest().authenticated());
 
         http.csrf(csrf -> csrf
                               .ignoringRequestMatchers("/accounts/**"));
 
         return http.build();
+    }
+
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(userDetailsService());
+        provider.setPasswordEncoder(bCryptPasswordEncoder());
+
+        return provider;
+    }
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return new CustomUserDetailsService();
     }
 
     @Bean
