@@ -1,6 +1,5 @@
-package com.utc.api.configuration;
+package com.utc.api.configuration.security;
 
-import com.utc.api.security.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -21,6 +20,7 @@ public class SecurityConfiguration {
                                                    // PUBLIC
                                                    .requestMatchers("/accounts/register").permitAll()
                                                    .requestMatchers("/accounts/**").permitAll()
+                                                   .requestMatchers("/accounts/login").permitAll()
 
                                                    // ADMIN
                                                    .requestMatchers("/admin").hasRole("ADMIN")
@@ -30,7 +30,7 @@ public class SecurityConfiguration {
                                                    .anyRequest().authenticated());
 
         http.csrf(csrf -> csrf
-                              .ignoringRequestMatchers("/accounts/**"));
+                              .disable());
 
         return http.build();
     }

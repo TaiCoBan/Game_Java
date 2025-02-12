@@ -1,13 +1,10 @@
 package com.utc.api.controller;
 
-import com.utc.api.constants.Constant;
+import com.utc.api.dto.request.LoginRequest;
 import com.utc.api.dto.request.RegisterRequest;
 import com.utc.api.dto.response.ApiResponse;
 import com.utc.api.entity.Account;
-import com.utc.api.entity.Role;
-import com.utc.api.exception.ApiException;
 import com.utc.api.service.AccountService;
-import com.utc.api.service.RoleService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,31 +13,25 @@ import org.springframework.web.bind.annotation.*;
 public class AccountController {
 
     private final AccountService accountService;
-    private final RoleService roleService;
 
-    public AccountController(AccountService accountService, RoleService roleService) {
+    public AccountController(AccountService accountService) {
         this.accountService = accountService;
-        this.roleService = roleService;
     }
 
     @PostMapping("register")
     public ApiResponse<?> register(@Valid @RequestBody RegisterRequest request) {
         request.validate();
 
-        Account account = new Account();
-        account.setUsername(request.getUsername());
-        account.setEmail(request.getEmail());
-        account.setPassword(request.getPassword());
+        Account account = accountService.register(request);
 
-        Role role = roleService.findByName(Constant.ROLE_USER);
-        if (role == null) {
-            role = new Role("USER", "This is ROLE_USER");
-            roleService.create(role);
-        }
+        return ApiResponse.<Account>builder().result(account).build();
+    }
 
-        account.getRoles().add(role);
+    @PostMapping("login")
+    public ApiResponse<?> login(@Valid @RequestBody LoginRequest request) {
+        Account account = accountService.login(request);
 
-        return ApiResponse.<Account>builder().result(accountService.create(account)).build();
+        return ApiResponse.<Account>builder().result(account).build();
     }
 
     @GetMapping()

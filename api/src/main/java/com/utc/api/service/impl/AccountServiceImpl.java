@@ -1,7 +1,12 @@
 package com.utc.api.service.impl;
 
+import com.utc.api.constants.Constant;
+import com.utc.api.dto.request.LoginRequest;
+import com.utc.api.dto.request.RegisterRequest;
 import com.utc.api.entity.Account;
+import com.utc.api.entity.Role;
 import com.utc.api.repository.AccountRepository;
+import com.utc.api.repository.RoleRepository;
 import com.utc.api.service.AccountService;
 import com.utc.api.service.base.impl.BaseServiceImpl;
 import org.springframework.stereotype.Service;
@@ -10,20 +15,36 @@ import org.springframework.stereotype.Service;
 public class AccountServiceImpl extends BaseServiceImpl<Account> implements AccountService {
 
     private final AccountRepository accountRepository;
+    private final RoleRepository roleRepository;
 
-    public AccountServiceImpl(AccountRepository repository) {
+    public AccountServiceImpl(AccountRepository repository, RoleRepository roleRepository) {
         super(repository);
         this.accountRepository = repository;
+        this.roleRepository = roleRepository;
     }
 
     @Override
-    public Account register(Account account) {
-        System.out.println("REGISTER");
-        return null;
+    public Account register(RegisterRequest request) {
+        Account account = new Account();
+
+        account.setUsername(request.getUsername());
+        account.setEmail(request.getEmail());
+        account.setPassword(request.getPassword());
+
+        Role role = roleRepository.findByName(Constant.ROLE_USER);
+        if (role == null) {
+            role = new Role();
+            role.setName(Constant.ROLE_USER);
+            roleRepository.save(role);
+        }
+
+        account.getRoles().add(role);
+
+        return accountRepository.save(account);
     }
 
     @Override
-    public Account login(Account account) {
+    public Account login(LoginRequest request) {
         System.out.println("LOGIN");
         return null;
     }

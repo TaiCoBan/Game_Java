@@ -1,15 +1,13 @@
 package com.utc.api.entity;
 
-import com.utc.api.constants.Constant;
 import com.utc.api.entity.base.BaseEntity;
+import com.utc.api.entity.listener.AccountListener;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.ManyToMany;
 import lombok.*;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -17,11 +15,12 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
+@EntityListeners(AccountListener.class)
 public class Account extends BaseEntity {
 
     private String email;
     private String username;
     private String password;
     @ManyToMany
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 }

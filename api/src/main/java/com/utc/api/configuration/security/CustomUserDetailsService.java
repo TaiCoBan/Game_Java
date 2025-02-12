@@ -1,4 +1,4 @@
-package com.utc.api.security;
+package com.utc.api.configuration.security;
 
 import com.utc.api.entity.Account;
 import com.utc.api.exception.ApiException;
