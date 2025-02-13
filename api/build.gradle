@@ -28,6 +28,7 @@ dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-web'
   implementation 'org.springframework.boot:spring-boot-starter-security'
   implementation 'org.springframework.boot:spring-boot-starter-validation'
+  implementation 'org.springframework.boot:spring-boot-starter-data-redis'
   testImplementation 'org.springframework.security:spring-security-test'
   compileOnly 'org.projectlombok:lombok'
   runtimeOnly 'com.mysql:mysql-connector-j'
@@ -40,6 +41,9 @@ dependencies {
   implementation group: 'jakarta.validation', name: 'jakarta.validation-api', version: '3.1.1'
   implementation 'org.mapstruct:mapstruct:1.6.3'
   annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
+  // https://mvnrepository.com/artifact/io.lettuce/lettuce-core
+  implementation group: 'io.lettuce', name: 'lettuce-core', version: '6.5.3.RELEASE'
+
 }
 
 tasks.named('test') {

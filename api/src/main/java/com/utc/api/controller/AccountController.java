@@ -6,6 +6,7 @@ import com.utc.api.dto.response.ApiResponse;
 import com.utc.api.entity.Account;
 import com.utc.api.service.AccountService;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -37,5 +38,10 @@ public class AccountController {
     @GetMapping()
     public ApiResponse<?> getAccount(@RequestParam Long id) {
         return ApiResponse.<Account>builder().result(accountService.find(id)).build();
+    }
+
+    @GetMapping("list")
+    public ResponseEntity<?> getAccountList() {
+        return ResponseEntity.ok().body(accountService.list());
     }
 }

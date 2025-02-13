@@ -2,11 +2,10 @@ package com.utc.api.entity;
 
 import com.utc.api.entity.base.BaseEntity;
 import com.utc.api.entity.listener.AccountListener;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.HashSet;
 import java.util.Set;
