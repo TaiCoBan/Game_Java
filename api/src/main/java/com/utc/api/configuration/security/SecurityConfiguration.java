@@ -2,8 +2,11 @@ package com.utc.api.configuration.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,8 +21,8 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(requests -> requests
                                                    // PUBLIC
-                                                   .requestMatchers("/accounts/register").permitAll()
                                                    .requestMatchers("/accounts/**").permitAll()
+                                                   .requestMatchers("/accounts/register").permitAll()
                                                    .requestMatchers("/accounts/login").permitAll()
 
                                                    // ADMIN
@@ -29,10 +32,17 @@ public class SecurityConfiguration {
                                                    .requestMatchers("/user").hasRole("USER")
                                                    .anyRequest().authenticated());
 
-        http.csrf(csrf -> csrf
-                              .disable());
+//        http.formLogin(Customizer.withDefaults());
+        http.httpBasic(Customizer.withDefaults());
+
+        http.csrf(csrf -> csrf.disable());
 
         return http.build();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManagerBean(AuthenticationConfiguration configuration) throws Exception {
+        return configuration.getAuthenticationManager();
     }
 
     @Bean

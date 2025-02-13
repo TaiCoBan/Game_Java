@@ -4,6 +4,7 @@ import com.utc.api.entity.base.BaseEntity;
 import com.utc.api.entity.listener.AccountListener;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToMany;
 import lombok.*;
 
@@ -21,6 +22,6 @@ public class Account extends BaseEntity {
     private String email;
     private String username;
     private String password;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
 }
