@@ -4,6 +4,7 @@ import com.utc.api.entity.Role;
 import com.utc.api.repository.RoleRepository;
 import com.utc.api.service.RoleService;
 import com.utc.api.service.base.impl.BaseServiceImpl;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service

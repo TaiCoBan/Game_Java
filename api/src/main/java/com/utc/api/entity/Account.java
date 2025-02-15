@@ -4,8 +4,6 @@ import com.utc.api.entity.base.BaseEntity;
 import com.utc.api.entity.listener.AccountListener;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import java.util.HashSet;
 import java.util.Set;

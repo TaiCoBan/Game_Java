@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Slf4j
-@Transactional
 public class BaseServiceImpl<T extends BaseEntity> implements BaseService<T> {
 
     private final BaseRepository<T> repository;

@@ -1,10 +1,8 @@
 package com.utc.api.service.impl;
 
-import com.utc.api.constants.Constant;
 import com.utc.api.dto.request.LoginRequest;
 import com.utc.api.dto.request.RegisterRequest;
 import com.utc.api.entity.Account;
-import com.utc.api.entity.Role;
 import com.utc.api.repository.AccountRepository;
 import com.utc.api.repository.RoleRepository;
 import com.utc.api.service.AccountService;
@@ -30,15 +28,6 @@ public class AccountServiceImpl extends BaseServiceImpl<Account> implements Acco
         account.setUsername(request.getUsername());
         account.setEmail(request.getEmail());
         account.setPassword(request.getPassword());
-
-        Role role = roleRepository.findByName(Constant.ROLE_USER);
-        if (role == null) {
-            role = new Role();
-            role.setName(Constant.ROLE_USER);
-            roleRepository.save(role);
-        }
-
-        account.getRoles().add(role);
 
         return accountRepository.save(account);
     }
