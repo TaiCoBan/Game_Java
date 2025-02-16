@@ -6,16 +6,16 @@ import com.badlogic.gdx.Net;
 public class ResponseListener implements Net.HttpResponseListener {
     @Override
     public void handleHttpResponse(Net.HttpResponse httpResponse) {
-        Gdx.app.log("(default) handleHttpResponse", httpResponse.toString());
+        Gdx.app.log("(default response listener) handleHttpResponse", httpResponse.toString());
     }
 
     @Override
     public void failed(Throwable throwable) {
-        Gdx.app.error("(default) failed", throwable.toString());
+        Gdx.app.error("(default response listener) failed", throwable.toString());
     }
 
     @Override
     public void cancelled() {
-        Gdx.app.debug("(default) cancelled", "cancelled");
+        Gdx.app.debug("(default response listener) cancelled", "cancelled");
     }
 }

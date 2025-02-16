@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.btl.menu.service.GameService;
 
 public class Menu extends GameScreen {
 
@@ -64,6 +65,7 @@ public class Menu extends GameScreen {
                 // Chuyển sang màn hình Login
                 // game.setScreen(new LoginScreen(game));
                 System.out.println("Login");
+                gameService.accountService.login("acacacac", "acacacac");
             }
         });
 

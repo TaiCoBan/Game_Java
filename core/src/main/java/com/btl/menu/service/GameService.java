@@ -2,8 +2,9 @@ package com.btl.menu.service;
 
 public class GameService {
 
-    AccountService accountService;
+    public AccountService accountService;
 
     public GameService() {
+        accountService = new AccountService();
     }
 }
