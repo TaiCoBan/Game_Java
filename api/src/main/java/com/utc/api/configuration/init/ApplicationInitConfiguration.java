@@ -11,6 +11,8 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import static com.utc.api.constants.Constant.*;
+
 @Component
 @Slf4j
 public class ApplicationInitConfiguration implements ApplicationRunner {
@@ -40,11 +42,16 @@ public class ApplicationInitConfiguration implements ApplicationRunner {
         String username = "user1234";
         String password = "user1234";
 
+        if (accountRepository.existsByEmail(email)
+        || accountRepository.existsByUsername(username)) {
+            return;
+        }
+
         Account account = new Account();
         account.setEmail(email);
         account.setUsername(username);
         account.setPassword(passwordEncoder.encode(password));
-        account.getRoles().add(roleRepository.findByName(Constant.ROLE_ADMIN));
+        account.getRoles().add(roleRepository.findByName(ROLE_USER));
 
         accountRepository.save(account);
         log.warn("User account initialized with default email, username and password");
@@ -55,21 +62,31 @@ public class ApplicationInitConfiguration implements ApplicationRunner {
         String username = "admin";
         String password = "admin";
 
+        if (accountRepository.existsByEmail(email)
+        || accountRepository.existsByUsername(username)) {
+            return;
+        }
+
         Account adminAccount = new Account();
         adminAccount.setEmail(email);
         adminAccount.setUsername(username);
         adminAccount.setPassword(passwordEncoder.encode(password));
-        adminAccount.getRoles().add(roleRepository.findByName(Constant.ROLE_ADMIN));
+        adminAccount.getRoles().add(roleRepository.findByName(ROLE_ADMIN));
 
         accountRepository.save(adminAccount);
         log.warn("Admin account initialized with default email, username and password");
     }
 
     private void roleInit() {
-        Role adminRole= new Role("ADMIN", "This is the admin role");
-        Role userRole= new Role("USER", "This is the user role");
-        roleRepository.save(adminRole);
-        roleRepository.save(userRole);
+        if (!roleRepository.existsByName(ROLE_ADMIN)) {
+            Role adminRole= new Role(ROLE_ADMIN, "This is the admin role");
+            roleRepository.save(adminRole);
+        }
+
+        if (!roleRepository.existsByName(ROLE_USER)) {
+            Role userRole= new Role(ROLE_USER, "This is the user role");
+            roleRepository.save(userRole);
+        }
 
         log.warn("Admin role, user role inserted");
     }

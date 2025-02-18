@@ -1,7 +1,6 @@
 package com.utc.api.entity;
 
 import com.utc.api.entity.base.BaseEntity;
-import com.utc.api.entity.listener.AccountListener;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,12 +12,15 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-@EntityListeners(AccountListener.class)
 public class Account extends BaseEntity {
 
     private String email;
     private String username;
     private String password;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     private Set<Role> roles = new HashSet<>();
+    @ManyToMany
+    private Set<Character> characters = new HashSet<>();
+    @OneToMany
+    private Set<Inventory> inventory = new HashSet<>();
 }

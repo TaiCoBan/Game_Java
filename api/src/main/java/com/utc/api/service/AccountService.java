@@ -1,6 +1,5 @@
 package com.utc.api.service;
 
-import com.utc.api.dto.request.LoginRequest;
 import com.utc.api.dto.request.RegisterRequest;
 import com.utc.api.dto.response.AccountResponse;
 import com.utc.api.entity.Account;

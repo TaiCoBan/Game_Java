@@ -1,6 +1,5 @@
 package com.utc.api.service.impl;
 
-import com.utc.api.dto.request.LoginRequest;
 import com.utc.api.dto.request.RegisterRequest;
 import com.utc.api.dto.response.AccountResponse;
 import com.utc.api.entity.Account;
@@ -9,6 +8,7 @@ import com.utc.api.repository.AccountRepository;
 import com.utc.api.repository.RoleRepository;
 import com.utc.api.service.AccountService;
 import com.utc.api.service.base.impl.BaseServiceImpl;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,11 +16,15 @@ public class AccountServiceImpl extends BaseServiceImpl<Account> implements Acco
 
     private final AccountRepository accountRepository;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public AccountServiceImpl(AccountRepository repository, RoleRepository roleRepository) {
+    public AccountServiceImpl(AccountRepository repository,
+                              RoleRepository roleRepository,
+                              PasswordEncoder passwordEncoder) {
         super(repository);
         this.accountRepository = repository;
         this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -29,7 +33,7 @@ public class AccountServiceImpl extends BaseServiceImpl<Account> implements Acco
 
         account.setUsername(request.getUsername());
         account.setEmail(request.getEmail());
-        account.setPassword(request.getPassword());
+        account.setPassword(passwordEncoder.encode(request.getPassword()));
 
         return AccountMapper.INSTANCE.toAccountResponse(accountRepository.save(account));
     }
