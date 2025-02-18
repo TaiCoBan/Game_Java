@@ -13,6 +13,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static com.utc.api.constants.Constant.ROLE_ADMIN;
+import static com.utc.api.constants.Constant.ROLE_USER;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
@@ -21,18 +24,17 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(requests -> requests
                                                    // PUBLIC
+                                                   .requestMatchers("/auth/**").permitAll()
                                                    .requestMatchers("/accounts/**").permitAll()
-                                                   .requestMatchers("/accounts/register").permitAll()
-                                                   .requestMatchers("/accounts/login").permitAll()
+                                                   .requestMatchers("/public").permitAll()
 
                                                    // ADMIN
-                                                   .requestMatchers("/admin").hasRole("ADMIN")
+                                                   .requestMatchers("/admin").hasRole(ROLE_ADMIN)
 
                                                    // USER
-                                                   .requestMatchers("/user").hasRole("USER")
+                                                   .requestMatchers("/user").hasRole(ROLE_USER)
                                                    .anyRequest().authenticated());
 
-//        http.formLogin(Customizer.withDefaults());
         http.httpBasic(Customizer.withDefaults());
 
         http.csrf(csrf -> csrf.disable());

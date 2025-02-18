@@ -81,13 +81,14 @@ public class ApplicationInitConfiguration implements ApplicationRunner {
         if (!roleRepository.existsByName(ROLE_ADMIN)) {
             Role adminRole= new Role(ROLE_ADMIN, "This is the admin role");
             roleRepository.save(adminRole);
+            log.warn("Admin role inserted");
         }
 
         if (!roleRepository.existsByName(ROLE_USER)) {
             Role userRole= new Role(ROLE_USER, "This is the user role");
             roleRepository.save(userRole);
+            log.warn("User role inserted");
         }
 
-        log.warn("Admin role, user role inserted");
     }
 }

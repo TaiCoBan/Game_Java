@@ -17,17 +17,17 @@ import java.util.Objects;
 @Setter
 public class RegisterRequest {
 
+    @Email
+    @NotEmpty(message = "Email must not be empty")
+    @NotBlank(message = "Email must not be blank")
+    @NotNull(message = "Email must not be null")
+    private String email;
     @Username
     @NotEmpty(message = "Username must not be empty")
     @NotBlank(message = "Username must not be blank")
     @NotNull(message = "Username must not be null")
     @Size(min = 8, message = "Username must be at least 8 letters")
     private String username;
-    @Email
-    @NotEmpty(message = "Email must not be empty")
-    @NotBlank(message = "Email must not be blank")
-    @NotNull(message = "Email must not be null")
-    private String email;
     @Size(min = 8, message = "Password must be at least 8 letters")
     @NotEmpty(message = "Password must not be empty")
     @NotBlank(message = "Password must not be blank")

@@ -1,6 +1,7 @@
 package com.utc.api.service.impl;
 
 import com.utc.api.dto.request.RegisterRequest;
+import com.utc.api.dto.request.UpdateAccountRequest;
 import com.utc.api.dto.response.AccountResponse;
 import com.utc.api.entity.Account;
 import com.utc.api.mapper.AccountMapper;
@@ -8,8 +9,12 @@ import com.utc.api.repository.AccountRepository;
 import com.utc.api.repository.RoleRepository;
 import com.utc.api.service.AccountService;
 import com.utc.api.service.base.impl.BaseServiceImpl;
+import org.mapstruct.factory.Mappers;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AccountServiceImpl extends BaseServiceImpl<Account> implements AccountService {
@@ -17,6 +22,7 @@ public class AccountServiceImpl extends BaseServiceImpl<Account> implements Acco
     private final AccountRepository accountRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AccountMapper accountMapper = Mappers.getMapper(AccountMapper.class);
 
     public AccountServiceImpl(AccountRepository repository,
                               RoleRepository roleRepository,
@@ -35,13 +41,25 @@ public class AccountServiceImpl extends BaseServiceImpl<Account> implements Acco
         account.setEmail(request.getEmail());
         account.setPassword(passwordEncoder.encode(request.getPassword()));
 
-        return AccountMapper.INSTANCE.toAccountResponse(accountRepository.save(account));
+        return accountMapper.toAccountResponse(accountRepository.save(account));
     }
 
     @Override
-    public Account login(LoginRequest request) {
-        System.out.println("LOGIN");
-        return null;
+    public List<AccountResponse> listDTO() {
+        return super.list()
+                   .stream()
+                   .map(accountMapper::toAccountResponse)
+                   .collect(Collectors.toList());
+    }
+
+    @Override
+    public AccountResponse findDTO(Long id) {
+        return accountMapper.toAccountResponse(super.find(id));
+    }
+
+    @Override
+    public AccountResponse updateDTO(UpdateAccountRequest request) {
+        return accountMapper.toAccountResponse(super.update(accountMapper.toAccount(request)));
     }
 
     @Override
@@ -64,4 +82,5 @@ public class AccountServiceImpl extends BaseServiceImpl<Account> implements Acco
     public boolean isExistsByEmail(String email) {
         return accountRepository.existsByEmail(email);
     }
+
 }

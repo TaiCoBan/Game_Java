@@ -17,7 +17,7 @@ public class Account extends BaseEntity {
     private String email;
     private String username;
     private String password;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
     @ManyToMany
     private Set<Character> characters = new HashSet<>();

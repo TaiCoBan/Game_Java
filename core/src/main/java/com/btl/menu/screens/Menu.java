@@ -68,7 +68,7 @@ public class Menu extends GameScreen {
                 // Chuyển sang màn hình Login
                 // game.setScreen(new LoginScreen(game));
                 System.out.println("Login");
-                Request.sendRequest(GET, TEST_URL, null);
+                Request.sendAuthRequest(GET, TEST_USER_URL, null);
             }
         });
 

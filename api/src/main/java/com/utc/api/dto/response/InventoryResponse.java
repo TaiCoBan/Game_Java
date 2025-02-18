@@ -1,6 +1,5 @@
-package com.utc.api.entity;
+package com.utc.api.dto.response;
 
-import com.utc.api.dto.response.ItemResponse;
 import lombok.Data;
 
 import java.util.List;

@@ -29,27 +29,23 @@ public class BaseServiceImpl<T extends BaseEntity> implements BaseService<T> {
     }
 
     @Override
-    @Cacheable(key = "#id", value = "entity")
     public T find(Long id) {
         log.info("(find) id: {}", id);
         return repository.findById(id).orElseThrow(() -> new ApiException(ErrorCode.NOT_FOUND));
     }
 
     @Override
-    @Cacheable(value = "entity")
     public List<T> list() {
         return repository.findAll();
     }
 
     @Override
-    @CachePut(key = "#t.id", value = "entity")
     public T update(T t) {
         log.info("(update) object: {}", t);
         return repository.save(t);
     }
 
     @Override
-    @CacheEvict(key = "#id", value = "entity")
     public void delete(Long id) {
         log.info("(delete) id: {}", id);
         repository.deleteById(id);

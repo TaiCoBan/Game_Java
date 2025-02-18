@@ -1,13 +1,17 @@
 package com.utc.api.controller;
 
 import com.utc.api.dto.request.RegisterRequest;
+import com.utc.api.dto.request.UpdateAccountRequest;
 import com.utc.api.dto.response.AccountResponse;
 import com.utc.api.dto.response.ApiResponse;
 import com.utc.api.entity.Account;
 import com.utc.api.service.AccountService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/accounts/")
@@ -19,22 +23,18 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    @PostMapping("register")
-    public ApiResponse<?> register(@Valid @RequestBody RegisterRequest request) {
-        request.validate();
-
-        AccountResponse response = accountService.register(request);
-
-        return ApiResponse.<AccountResponse>builder().result(response).build();
+    @GetMapping
+    public ApiResponse<?> list() {
+        return ApiResponse.<List<AccountResponse>>builder().result(accountService.listDTO()).build();
     }
 
-    @GetMapping()
-    public ApiResponse<?> getAccount(@RequestParam Long id) {
-        return ApiResponse.<Account>builder().result(accountService.find(id)).build();
+    @GetMapping("{id}")
+    public ApiResponse<AccountResponse> findById(@PathVariable("id") Long id) {
+        return ApiResponse.<AccountResponse>builder().result(accountService.findDTO(id)).build();
     }
 
-    @GetMapping("list")
-    public ResponseEntity<?> getAccountList() {
-        return ResponseEntity.ok().body(accountService.list());
+    @PutMapping
+    public ApiResponse<AccountResponse> update(@RequestBody @Valid UpdateAccountRequest request) {
+        return ApiResponse.<AccountResponse>builder().result(accountService.updateDTO(request)).build();
     }
 }

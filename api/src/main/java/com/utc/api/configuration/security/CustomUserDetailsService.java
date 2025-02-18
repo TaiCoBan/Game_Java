@@ -1,6 +1,7 @@
 package com.utc.api.configuration.security;
 
 import com.utc.api.entity.Account;
+import com.utc.api.entity.Role;
 import com.utc.api.exception.ApiException;
 import com.utc.api.exception.ErrorCode;
 import com.utc.api.repository.AccountRepository;

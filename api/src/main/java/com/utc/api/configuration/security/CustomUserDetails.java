@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static com.utc.api.constants.Constant.ROLE_USER;
+
 public class CustomUserDetails implements UserDetails {
 
     private final String username;
