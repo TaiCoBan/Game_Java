@@ -5,8 +5,9 @@ public class Constant {
     // API ENDPOINTS
     public static final String BASE_API_URL = "http://localhost:8080/";
         // AUTH
-    public static final String REGISTER_URL = BASE_API_URL + "register";
-    public static final String LOGOUT = BASE_API_URL + "logout";
+    public static final String AUTH_URL = BASE_API_URL + "auth/";
+    public static final String REGISTER_URL = AUTH_URL + "register";
+    public static final String LOGOUT = AUTH_URL + "logout";
         // ACCOUNT
     public static final String BASE_ACCOUNT_URL = "accounts/";
     public static final String ACCOUNT_URL = BASE_API_URL + BASE_ACCOUNT_URL;

@@ -3,13 +3,18 @@ package com.btl.menu.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.btl.menu.api.Request;
+import com.btl.menu.dto.request.RegisterRequest;
 import com.btl.menu.service.GameService;
 
 import static com.btl.menu.constant.Constant.*;
@@ -17,92 +22,72 @@ import static com.btl.menu.constant.Constant.*;
 public class Menu extends GameScreen {
 
     private Stage stage;
+    private SpriteBatch batch;
+    private Texture background;
     private Skin skin;
-    private TextButton btnLogin, btnRegister, btnExit;
 
     public Menu(Game game) {
         super(game);
-    }
 
-    @Override
-    public void show() {
-        // Khởi tạo Stage và Skin
-        stage = new Stage();
-        skin = new Skin(Gdx.files.internal("uiskin.json")); // Cần file skin trong assets
+        batch = new SpriteBatch();
+        stage = new Stage(new ScreenViewport());
+        Gdx.input.setInputProcessor(stage);
 
-        // Tạo các nút
-        btnLogin = new TextButton("Login", skin);
-        btnRegister = new TextButton("Register", skin);
-        btnExit = new TextButton("Exit", skin);
+        background = new Texture("libgdx.png");
 
-        // Thiết lập layout
-        Table table = new Table();
-        table.setFillParent(true); // Chiếm toàn bộ màn hình
-        table.center(); // Căn giữa
+        skin = new Skin(Gdx.files.internal("uiskin.json"));
 
-        // Thêm các nút vào bảng
-        table.add(btnLogin).width(200).height(60).padBottom(20);
-        table.row();
-        table.add(btnRegister).width(200).height(60).padBottom(20);
-        table.row();
-        table.add(btnExit).width(200).height(60);
+        Table mainTable = new Table();
+        mainTable.setFillParent(true);
+        stage.addActor(mainTable);
 
-        stage.addActor(table);
-        Gdx.input.setInputProcessor(stage); // Xử lý input
-
-        // Thêm sự kiện click
-        addButtonListeners();
-    }
-
-    private void addButtonListeners() {
-        btnExit.addListener(new ClickListener() {
+        // BUTTON
+        TextButton registerBtn = new TextButton("Register", skin);
+        mainTable.add(registerBtn).width(200).pad(5).row();
+        registerBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit(); // Thoát game
+                RegisterRequest request = new RegisterRequest("test@gmail.com", "testtest05", "testtest05", "testtest05");
+                Request.sendRequest(POST, REGISTER_URL, request);
             }
         });
 
-        btnLogin.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                // Chuyển sang màn hình Login
-                // game.setScreen(new LoginScreen(game));
-                System.out.println("Login");
-                Request.sendAuthRequest(GET, TEST_USER_URL, null);
-            }
-        });
 
-        btnRegister.addListener(new ClickListener() {
+        TextButton exitBtn = new TextButton("Exit Game", skin);
+        mainTable.add(exitBtn).width(200).pad(5).row();
+        exitBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                // Chuyển sang màn hình Register
-                // game.setScreen(new RegisterScreen(game));
-                System.out.println("Register");
+                Gdx.app.exit();
             }
         });
     }
 
     @Override
     public void render(float delta) {
-        // Clear màn hình
-        Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // Vẽ stage
+        // Vẽ nền
+        batch.begin();
+        batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.end();
+
+        // Vẽ UI (các nút, label...)
         stage.act(delta);
         stage.draw();
     }
 
     @Override
     public void hide() {
-        // Xóa bộ xử lý input khi màn hình bị ẩn
         Gdx.input.setInputProcessor(null);
     }
 
     @Override
     public void dispose() {
-        // Giải phóng tài nguyên
         stage.dispose();
+        batch.dispose();
+        background.dispose();
         skin.dispose();
     }
 }

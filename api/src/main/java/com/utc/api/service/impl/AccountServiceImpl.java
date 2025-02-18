@@ -1,7 +1,7 @@
 package com.utc.api.service.impl;
 
+import com.utc.api.dto.request.ChangePasswordRequest;
 import com.utc.api.dto.request.RegisterRequest;
-import com.utc.api.dto.request.UpdateAccountRequest;
 import com.utc.api.dto.response.AccountResponse;
 import com.utc.api.entity.Account;
 import com.utc.api.mapper.AccountMapper;
@@ -58,7 +58,7 @@ public class AccountServiceImpl extends BaseServiceImpl<Account> implements Acco
     }
 
     @Override
-    public AccountResponse updateDTO(UpdateAccountRequest request) {
+    public AccountResponse updateDTO(ChangePasswordRequest request) {
         return accountMapper.toAccountResponse(super.update(accountMapper.toAccount(request)));
     }
 
