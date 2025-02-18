@@ -1,7 +1,9 @@
 package com.utc.api.controller;
 
+import com.utc.api.dto.response.AccountResponse;
 import com.utc.api.entity.Account;
 import com.utc.api.entity.Role;
+import com.utc.api.mapper.AccountMapper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +21,7 @@ public class TestController {
     }
 
     @GetMapping("/test1")
-    Account test1() {
-        return new Account();
+    AccountResponse test1() {
+        return AccountMapper.INSTANCE.toAccountResponse(new Account());
     }
 }

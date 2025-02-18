@@ -12,7 +12,7 @@ public class AccountService extends BaseService<Account> {
 
     public void login(String username, String password) {
         if (LocalStorageService.get(Constant.ACCOUNT_KEY) == null) {
-            request.POST(LOGIN_URL, new LoginRequest(username, password));
+//            request.POST(LOGIN_URL, new LoginRequest(username, password));
         }
     }
 }

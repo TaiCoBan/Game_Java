@@ -2,7 +2,9 @@ package com.utc.api.service.impl;
 
 import com.utc.api.dto.request.LoginRequest;
 import com.utc.api.dto.request.RegisterRequest;
+import com.utc.api.dto.response.AccountResponse;
 import com.utc.api.entity.Account;
+import com.utc.api.mapper.AccountMapper;
 import com.utc.api.repository.AccountRepository;
 import com.utc.api.repository.RoleRepository;
 import com.utc.api.service.AccountService;
@@ -22,14 +24,14 @@ public class AccountServiceImpl extends BaseServiceImpl<Account> implements Acco
     }
 
     @Override
-    public Account register(RegisterRequest request) {
+    public AccountResponse register(RegisterRequest request) {
         Account account = new Account();
 
         account.setUsername(request.getUsername());
         account.setEmail(request.getEmail());
         account.setPassword(request.getPassword());
 
-        return accountRepository.save(account);
+        return AccountMapper.INSTANCE.toAccountResponse(accountRepository.save(account));
     }
 
     @Override

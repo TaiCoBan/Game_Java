@@ -2,6 +2,7 @@ package com.utc.api.controller;
 
 import com.utc.api.dto.request.LoginRequest;
 import com.utc.api.dto.request.RegisterRequest;
+import com.utc.api.dto.response.AccountResponse;
 import com.utc.api.dto.response.ApiResponse;
 import com.utc.api.entity.Account;
 import com.utc.api.service.AccountService;
@@ -23,9 +24,9 @@ public class AccountController {
     public ApiResponse<?> register(@Valid @RequestBody RegisterRequest request) {
         request.validate();
 
-        Account account = accountService.register(request);
+        AccountResponse response = accountService.register(request);
 
-        return ApiResponse.<Account>builder().result(account).build();
+        return ApiResponse.<AccountResponse>builder().result(response).build();
     }
 
     @PostMapping("login")

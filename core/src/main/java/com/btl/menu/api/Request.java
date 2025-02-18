@@ -11,38 +11,20 @@ import static com.btl.menu.constant.Constant.*;
 
 public class Request {
 
-    HttpRequestBuilder httpRequestBuilder;
+    private static final HttpRequestBuilder httpRequestBuilder = new HttpRequestBuilder();
 
-    public Request() {
-        this.httpRequestBuilder = new HttpRequestBuilder();
-    }
-
-    public Net.HttpResponse GET(String uri) {
-        Gdx.app.log("(GET request) URI: ", uri);
-        Net.HttpRequest httpRequest = httpRequestBuilder.newRequest().method(Net.HttpMethods.GET).url(BASE_API_URL).content("q=libgdx&example=example").build();
-        Gdx.net.sendHttpRequest(httpRequest, new ResponseListener() {
-            @Override
-            public void handleHttpResponse(Net.HttpResponse httpResponse) {
-
-            }
-        });
-        return null;
-    }
-
-    public void POST(String url, Object object) {
-        Gdx.app.log("POST", url);
+    public static void sendRequest(String method, String url, Object object) {
+        Gdx.app.log("(send request)", "["+method+"]" + " " + url);
 
         String username = "acacacac";
         String password = "acacacac";
 
-        String auth = username + ":" + password;
-        String encodedAuth = "Basic " + Base64Coder.encodeString(auth);
-
-        HttpRequestBuilder requestBuilder = new HttpRequestBuilder();
-        Net.HttpRequest request = requestBuilder.newRequest()
-                                      .method(Net.HttpMethods.GET)
-                                      .url(TEST_URL)
-                                      .header("Authorization", encodedAuth)
+        Net.HttpRequest request = httpRequestBuilder
+                                      .newRequest()
+                                      .method(method)
+                                      .url(url)
+                                      .basicAuthentication(username, password)
+                                      .jsonContent(object)
                                       .build();
 
         Gdx.net.sendHttpRequest(request, new ResponseListener() {
