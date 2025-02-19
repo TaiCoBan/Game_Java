@@ -5,10 +5,8 @@ import com.utc.api.dto.response.AccountResponse;
 import com.utc.api.dto.response.ApiResponse;
 import com.utc.api.service.AccountService;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth/")
@@ -26,6 +24,7 @@ public class AuthController {
 
         return ApiResponse
                    .<AccountResponse>builder()
+                   .code(HttpStatus.CREATED.value())
                    .result(accountService.register(registerRequest))
                    .build();
     }

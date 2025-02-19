@@ -47,7 +47,7 @@ public class Menu extends GameScreen {
         registerBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                RegisterRequest request = new RegisterRequest("test@gmail.com", "testtest05", "testtest05", "testtest05");
+                RegisterRequest request = new RegisterRequest("test@gmail.com", "testtest11", "testtest05", "testtest05");
                 Request.sendRequest(POST, REGISTER_URL, request);
             }
         });
