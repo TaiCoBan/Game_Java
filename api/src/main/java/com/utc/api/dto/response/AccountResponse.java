@@ -11,5 +11,5 @@ public class AccountResponse {
     private String username;
     private String email;
     private Set<CharacterResponse> characters;
-    private Set<InventoryResponse> inventory;
+    private Set<InventoryResponse> inventories;
 }

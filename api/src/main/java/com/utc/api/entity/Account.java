@@ -4,7 +4,9 @@ import com.utc.api.entity.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -18,9 +20,9 @@ public class Account extends BaseEntity {
     private String username;
     private String password;
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> roles = new HashSet<>();
+    private List<Role> roles = new ArrayList<>();
     @ManyToMany
-    private Set<Character> characters = new HashSet<>();
+    private List<Character> characters = new ArrayList<>();
     @OneToMany
-    private Set<Inventory> inventory = new HashSet<>();
+    private List<Inventory> inventories = new ArrayList<>();
 }

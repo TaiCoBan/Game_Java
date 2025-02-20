@@ -1,21 +1,30 @@
 package com.btl.menu.api;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net;
 import com.badlogic.gdx.net.HttpRequestBuilder;
 import com.badlogic.gdx.utils.Base64Coder;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
+import com.btl.menu.dto.response.ApiResponse;
 import com.btl.menu.entity.Account;
 import com.btl.menu.service.LocalStorageService;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import static com.btl.menu.constant.Constant.*;
 
 public class Request {
 
-    private static final HttpRequestBuilder httpRequestBuilder = new HttpRequestBuilder();
+    private final Game game;
+    private final HttpRequestBuilder httpRequestBuilder;
 
-    public static void sendRequest(String method, String url, Object object) {
+    public Request(Game game) {
+        this.game = game;
+        this.httpRequestBuilder = new HttpRequestBuilder();
+    }
+
+    public void sendRequest(String method, String url, Object object, TypeReference<?> typeRef) {
         Gdx.app.log("Request", "[" + method + "] " + url);
 
         Net.HttpRequest request = httpRequestBuilder
@@ -35,22 +44,22 @@ public class Request {
             request.setContent(requestBody);
         }
 
-        Gdx.net.sendHttpRequest(request, new ResponseListener());
+        Gdx.net.sendHttpRequest(request, new ResponseListener(game, typeRef));
     }
 
-    public static void sendAuthRequest(String method, String url, Object object) {
-        Gdx.app.log("Auth request", "["+method+"]" + " " + url);
-
-        String username = "user1234";
-        String password = "user1234";
-
-        Net.HttpRequest request = httpRequestBuilder
-                                      .newRequest()
-                                      .method(method)
-                                      .url(url)
-                                      .basicAuthentication(username, password)
-                                      .build();
-
-        Gdx.net.sendHttpRequest(request, new ResponseListener());
-    }
+//    public void sendAuthRequest(String method, String url, Object object) {
+//        Gdx.app.log("Auth request", "["+method+"]" + " " + url);
+//
+//        String username = "user1234";
+//        String password = "user1234";
+//
+//        Net.HttpRequest request = httpRequestBuilder
+//                                      .newRequest()
+//                                      .method(method)
+//                                      .url(url)
+//                                      .basicAuthentication(username, password)
+//                                      .build();
+//
+//        Gdx.net.sendHttpRequest(request, new ResponseListener(game));
+//    }
 }

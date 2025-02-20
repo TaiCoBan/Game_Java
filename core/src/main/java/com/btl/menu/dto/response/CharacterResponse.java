@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Character {
+public class CharacterResponse {
 
     private String name;
     private int health;

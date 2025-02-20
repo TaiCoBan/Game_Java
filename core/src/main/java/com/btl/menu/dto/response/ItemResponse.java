@@ -4,13 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Inventory {
+public class ItemResponse {
 
     private String name;
-    private List<Item> items;
+    private String baseHealth;
+    private String baseAttack;
 }

@@ -2,16 +2,18 @@ package com.btl.menu.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.btl.menu.api.Request;
 import com.btl.menu.dto.request.RegisterRequest;
@@ -43,12 +45,23 @@ public class Menu extends GameScreen {
 
         // BUTTON
         TextButton registerBtn = new TextButton("Register", skin);
+        TextButton getAccountBtn = new TextButton("Get Account", skin);
+        TextButton getAllBtn = new TextButton("Get All", skin);
         mainTable.add(registerBtn).width(200).pad(5).row();
-        registerBtn.addListener(new ClickListener() {
+        mainTable.add(getAccountBtn).width(200).pad(5).row();
+        mainTable.add(getAllBtn).width(200).pad(5).row();
+
+        getAccountBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                RegisterRequest request = new RegisterRequest("test@gmail.com", "testtest11", "testtest05", "testtest05");
-                Request.sendRequest(POST, REGISTER_URL, request);
+                gameService.accountService.getAccount();
+            }
+        });
+
+        getAllBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                gameService.accountService.getAllAccount();
             }
         });
 

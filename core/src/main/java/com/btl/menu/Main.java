@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.btl.menu.screens.Menu;
+import com.btl.menu.screens.RegisterScreen;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

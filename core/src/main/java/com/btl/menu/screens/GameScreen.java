@@ -7,11 +7,11 @@ import com.btl.menu.service.GameService;
 public abstract class GameScreen implements Screen {
 
     Game game;
-    protected GameService gameService;
+    GameService gameService;
 
     public GameScreen(Game game) {
         this.game = game;
-        gameService = new GameService();
+        gameService = new GameService(game);
     }
 
     @Override
