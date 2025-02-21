@@ -15,20 +15,27 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import static com.btl.menu.constant.Constant.*;
 
 public class Request {
-
     private final Game game;
     private final HttpRequestBuilder httpRequestBuilder;
+    private final LocalStorageService localStorageService;
 
-    public Request(Game game) {
+    public Request(Game game, LocalStorageService localStorageService) {
         this.game = game;
         this.httpRequestBuilder = new HttpRequestBuilder();
+        this.localStorageService = localStorageService;
     }
 
-    public void sendRequest(String method, String url, Object object, TypeReference<?> typeRef) {
-        Gdx.app.log("Request", "[" + method + "] " + url);
+    public <T> void sendRequest(String method, String url, Object object, TypeReference<ApiResponse<T>> typeReference) {
+        String cacheKey = method + ":" + url;
+        // Kiểm tra cache trước khi gửi request
+        T cachedResult = localStorageService.get(cacheKey, new TypeReference<T>() {});
+        if (cachedResult != null) {
+            // Xử lý dữ liệu từ cache
+            return;
+        }
 
-        Net.HttpRequest request = httpRequestBuilder
-                                      .newRequest()
+        Gdx.app.log("Request", "[" + method + "] " + url);
+        Net.HttpRequest request = httpRequestBuilder.newRequest()
                                       .method(method)
                                       .url(url)
                                       .build();
@@ -37,29 +44,10 @@ public class Request {
             Json json = new Json();
             json.setOutputType(JsonWriter.OutputType.json);
             String requestBody = json.toJson(object);
-
-            json.prettyPrint(requestBody);
-
             request.setHeader("Content-Type", "application/json");
             request.setContent(requestBody);
         }
 
-        Gdx.net.sendHttpRequest(request, new ResponseListener(game, typeRef));
+        Gdx.net.sendHttpRequest(request, new ResponseListener<>(game, localStorageService, cacheKey, typeReference));
     }
-
-//    public void sendAuthRequest(String method, String url, Object object) {
-//        Gdx.app.log("Auth request", "["+method+"]" + " " + url);
-//
-//        String username = "user1234";
-//        String password = "user1234";
-//
-//        Net.HttpRequest request = httpRequestBuilder
-//                                      .newRequest()
-//                                      .method(method)
-//                                      .url(url)
-//                                      .basicAuthentication(username, password)
-//                                      .build();
-//
-//        Gdx.net.sendHttpRequest(request, new ResponseListener(game));
-//    }
 }

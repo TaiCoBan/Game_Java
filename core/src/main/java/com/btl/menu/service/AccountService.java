@@ -18,10 +18,12 @@ public class AccountService {
 
     private final Game game;
     private final Request request;
+    private final LocalStorageService localStorageService;
 
-    public AccountService(Game game, Request request) {
+    public AccountService(Game game, Request request, LocalStorageService localStorageService) {
         this.game = game;
         this.request = request;
+        this.localStorageService = localStorageService;
     }
 
     public void login(String username, String password) {
@@ -29,14 +31,15 @@ public class AccountService {
     }
 
     public void register(RegisterRequest rq) {
-        request.sendRequest(POST, REGISTER_URL, rq, new TypeReference<>() {});
+//        request.sendRequest(POST, REGISTER_URL, rq);
     }
 
     public void getAccount() {
-        request.sendRequest(GET, ACCOUNT_URL + "1", null, new TypeReference<AccountResponse>() {});
+        request.sendRequest(GET, ACCOUNT_URL + "1", null, new TypeReference< ApiResponse<AccountResponse> >() {
+        });
     }
 
     public void getAllAccount() {
-        request.sendRequest(GET, ACCOUNT_URL, null, new TypeReference< List<AccountResponse> >() {});
+        request.sendRequest(GET, ACCOUNT_URL, null, new TypeReference< ApiResponse<List<AccountResponse>> >() {});
     }
 }

@@ -25,4 +25,8 @@ public class Constant {
 
     // LOCAL STORAGE
     public static final String ACCOUNT_KEY = "account";
+    public static final String CHARACTER_KEY = "character";
+    public static final String INVENTORY_KEY = "inventory";
+    public static final String ITEM_KEY = "item";
+
 }

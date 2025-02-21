@@ -11,7 +11,7 @@ public class BaseService<T> {
 
     public BaseService(Game game) {
         this.game = game;
-        this.request = new Request(game);
+//        this.request = new Request(game);
     }
 
     public T create(T t) {
