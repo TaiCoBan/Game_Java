@@ -19,6 +19,7 @@ import java.util.Set;
 @Setter
 public class Class extends BaseEntity {
 
+    private String name;
     private int baseHealth;
     private int baseAttack;
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)

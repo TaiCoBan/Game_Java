@@ -14,8 +14,10 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-//@Configuration
-//@EnableCaching
+import java.time.Duration;
+
+@Configuration
+@EnableCaching
 public class RedisConfiguration {
 
     @Value("${spring.data.redis.host}")
@@ -39,14 +41,22 @@ public class RedisConfiguration {
         return template;
     }
 
-    @Bean
-    public RedisCacheManager redisCacheManager(RedisConnectionFactory connectionFactory) {
-        RedisCacheConfiguration config = RedisCacheConfiguration
-                                             .defaultCacheConfig()
-                                             .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
-        return RedisCacheManager.builder(connectionFactory)
-                   .cacheDefaults(config)
-                   .build();
-    }
+//    @Bean
+//    public RedisCacheManager redisCacheManager(RedisConnectionFactory connectionFactory) {
+//        RedisCacheConfiguration config = RedisCacheConfiguration
+//                                             .defaultCacheConfig()
+//                                             .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
+//        return RedisCacheManager.builder(connectionFactory)
+//                   .cacheDefaults(config)
+//                   .build();
+//    }
 
+    @Bean
+    public RedisCacheConfiguration redisCacheConfiguration() {
+        return RedisCacheConfiguration
+                   .defaultCacheConfig()
+                   .entryTtl(Duration.ofSeconds(20))
+                   .disableCachingNullValues()
+                   .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
+    }
 }
