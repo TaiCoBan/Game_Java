@@ -1,8 +1,7 @@
 package com.utc.api.entity;
 
 import com.utc.api.entity.base.BaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,5 +18,13 @@ public class Inventory extends BaseEntity {
 
     private String name;
     @ManyToMany
+    @JoinTable(
+        name = "inventory_item",
+        joinColumns = @JoinColumn(name = "inventory_id"),
+        inverseJoinColumns = @JoinColumn(name = "item_id")
+    )
     private List<Item> items;
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
 }

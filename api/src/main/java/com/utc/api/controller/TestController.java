@@ -15,21 +15,21 @@ public class TestController {
 
     @GetMapping("/public")
     public ApiResponse<?> publicMethod() {
-        AccountResponse accountResponse = new AccountResponse();
+//        AccountResponse accountResponse = new AccountResponse();
 
-        accountResponse.setId(1L);
-        accountResponse.setEmail("test@test.com");
-        accountResponse.setUsername("testusername");
+//        accountResponse.setId(1L);
+//        accountResponse.setEmail("test@test.com");
+//        accountResponse.setUsername("testusername");
         Set<CharacterResponse> characterResponses = new HashSet<>();
-        accountResponse.setCharacters(characterResponses);
+//        accountResponse.setCharacters(characterResponses);
         Set<InventoryResponse> inventoryResponses = new HashSet<>();
-        accountResponse.setInventories(inventoryResponses);
+//        accountResponse.setInventories(inventoryResponses);
 
         return ApiResponse
                    .<AccountResponse>builder()
                    .code(200)
                    .message("custom message")
-                   .result(accountResponse)
+//                   .result(accountResponse)
                    .build();
     }
 

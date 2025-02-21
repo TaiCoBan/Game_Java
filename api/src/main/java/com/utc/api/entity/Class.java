@@ -1,10 +1,8 @@
 package com.utc.api.entity;
 
+import com.utc.api.dto.response.ClassResponse;
 import com.utc.api.entity.base.BaseEntity;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,10 +20,8 @@ public class Class extends BaseEntity {
     private String name;
     private int baseHealth;
     private int baseAttack;
-    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
-    private Set<Class> subClasses;
-    @OneToMany
+    @OneToMany(mappedBy = "_class")
     private Set<Character> characters;
-    @OneToMany
+    @OneToMany(mappedBy = "_class")
     private Set<Item> items;
 }
