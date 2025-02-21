@@ -5,9 +5,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+
+@Data
 public class Character {
 
 //    STATE CONTROLLER
@@ -19,18 +20,18 @@ public class Character {
     static final int LEFT = -1;
     static final int RIGHT = 1;
     static final float GRAVITY = 0f;
-    static final float ACCELERATION = 20f;
-    static final float MAX_VEL = 6f;
-    static final float FRICTION = 0.1f;
+    static final float ACCELERATION = 200f;
+    static final float MAX_VEL = 200f;
+    static final float FRICTION = 0.9f;
     static final float JUMP_FORCE = 6f;
 
 
 //    character components
     private Texture characterTexture;
-    Vector2 pos = new Vector2();
-    Vector2 vel = new Vector2();            //control character movement
-    Vector2 accel = new Vector2();          //character acceleration
-    Rectangle body = new Rectangle();       //use for collision detect
+    private Vector2 pos = new Vector2();
+    private Vector2 vel = new Vector2();            //control character movement
+    private Vector2 accel = new Vector2();          //character acceleration
+    private Rectangle body = new Rectangle();       //use for collision detect
 
     int currentState;
     boolean grounded = false;
@@ -49,14 +50,20 @@ public class Character {
 
         accel.y = -GRAVITY;                         //character affected by gravity to fall down after jumping
         accel.scl(deltaTime);                       //Scale acceleration with deltaTime
-        vel.add(accel);
-        if(accel.x == 0) vel.x *= FRICTION;         //Rest friction
+        vel.add(accel.x, accel.y);
+        if(accel.x == 0){                           //Rest friction
+            vel.x *= FRICTION;
+            System.out.println("friction applied");
+        }
 
         //limit moving speed
         if(vel.x > MAX_VEL) vel.x = MAX_VEL;
         if(vel.x < -MAX_VEL) vel.x = -MAX_VEL;
+        vel.scl(deltaTime);
         moveCharacter();
-        vel.scl(1f / deltaTime);              //turn velocity back to time-independent form
+        vel.scl(1.0f / deltaTime);              //turn velocity back to time-independent form
+
+
 
 
     }
@@ -78,17 +85,14 @@ public class Character {
 
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             if (currentState != JUMP) currentState = RUN;
-            accel.x = ACCELERATION * LEFT;
-            System.out.println("A Pressed" + accel.x);
+            accel.x += ACCELERATION * LEFT;
         } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             if (currentState != JUMP) currentState = RUN;
-            accel.x = ACCELERATION * RIGHT;
-            System.out.println("D Pressed" + accel.x);
+            accel.x += ACCELERATION * RIGHT;
         } else {
             if (currentState != JUMP) currentState = IDLE;
             accel.x = 0;
-            vel.x = 0;                                          //temporary cause character cant auto stop
-            System.out.println("Nothing Pressed" + accel.x);
+            System.out.println("not pressed");
         }
     }
 
