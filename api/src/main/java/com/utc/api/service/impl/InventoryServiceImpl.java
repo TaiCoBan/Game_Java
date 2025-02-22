@@ -44,7 +44,7 @@ public class InventoryServiceImpl extends BaseServiceImpl<Inventory> implements 
     @Override
     public InventoryResponse findById(Long id) {
         try {
-            return InventoryResponse.from(find(id));
+            return InventoryResponse.from(repository.findByIdAndUser(id));
         } catch (Exception e) {
             throw new ApiException(ErrorCode.FORBIDDEN_ERROR);
         }

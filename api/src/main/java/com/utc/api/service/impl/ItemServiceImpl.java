@@ -20,7 +20,7 @@ public class ItemServiceImpl extends BaseServiceImpl<Item> implements ItemServic
     public List<ItemResponse> findAll() {
         return list()
                    .stream()
-                   .map(item -> ItemResponse.from(item))
+                   .map(ItemResponse::from)
                    .toList();
     }
 

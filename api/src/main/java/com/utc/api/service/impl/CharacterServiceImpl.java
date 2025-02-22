@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -26,15 +27,22 @@ public class CharacterServiceImpl extends BaseServiceImpl<Character> implements 
     }
 
     @Override
+    public CharacterResponse findById(Long id) {
+        return CharacterResponse.from(characterRepository.findByIdAndUser(id).orElseThrow(() -> new ApiException(ErrorCode.NOT_FOUND)));
+    }
+
+    @Override
+    public List<CharacterResponse> findAll() {
+        return characterRepository.findAllByUser()
+                   .stream()
+                   .map(CharacterResponse::from)
+                   .toList();
+    }
+
+    @Override
     public CharacterResponse updateInf(UpdateCharacterRequest request) {
-        String username = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
-
-        Character character = characterRepository.findById(request.getId())
+        Character character = characterRepository.findByIdAndUser(request.getId())
                                   .orElseThrow(() -> new ApiException(ErrorCode.NOT_FOUND));
-
-        if (!Objects.equals(username, character.getAccount().getUsername())) {
-            throw new ApiException(ErrorCode.FORBIDDEN_ERROR);
-        }
 
         character.setName(request.getName());
         character.setHealth(request.getHealth());

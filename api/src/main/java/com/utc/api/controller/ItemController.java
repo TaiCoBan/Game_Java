@@ -17,19 +17,19 @@ public class ItemController {
         this.itemService = itemService;
     }
 
-    @GetMapping
-    public ApiResponse<?> list() {
-        return ApiResponse
-                   .<List<ItemResponse>>builder()
-                   .result(itemService.findAll())
-                   .build();
-    }
-
     @GetMapping("{id}")
     public ApiResponse<?> findById(@PathVariable Long id) {
         return ApiResponse
                    .<ItemResponse>builder()
                    .result(itemService.findById(id))
+                   .build();
+    }
+
+    @GetMapping
+    public ApiResponse<?> list() {
+        return ApiResponse
+                   .<List<ItemResponse>>builder()
+                   .result(itemService.findAll())
                    .build();
     }
 }

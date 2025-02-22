@@ -19,19 +19,19 @@ public class ClassController {
         this.classService = classService;
     }
 
-    @GetMapping
-    public ApiResponse<?> list() {
-        return ApiResponse
-                   .<List<ClassResponse>>builder()
-                   .result(classService.findAll())
-                   .build();
-    }
-
     @GetMapping("{id}")
     public ApiResponse<?> findById(@PathVariable Long id) {
         return ApiResponse
                    .<ClassResponse>builder()
                    .result(classService.findById(id))
+                   .build();
+    }
+
+    @GetMapping
+    public ApiResponse<?> list() {
+        return ApiResponse
+                   .<List<ClassResponse>>builder()
+                   .result(classService.findAll())
                    .build();
     }
 }

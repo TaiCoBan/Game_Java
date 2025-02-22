@@ -17,6 +17,22 @@ public class CharacterController {
         this.characterService = characterService;
     }
 
+    @GetMapping("{id}")
+    public ApiResponse<?> find(@PathVariable Long id) {
+        return ApiResponse
+                   .<CharacterResponse>builder()
+                   .result(characterService.findById(id))
+                   .build();
+    }
+
+    @GetMapping
+    public ApiResponse<?> findAll() {
+        return ApiResponse
+                   .<CharacterResponse>builder()
+                   .result(characterService.findAll())
+                   .build();
+    }
+
     @PutMapping
     public ApiResponse<?> update(@Valid @RequestBody UpdateCharacterRequest request) {
         return ApiResponse
