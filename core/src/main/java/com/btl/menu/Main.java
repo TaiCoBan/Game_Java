@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.btl.menu.screens.LoginScreen;
 import com.btl.menu.screens.Menu;
 import com.btl.menu.screens.RegisterScreen;
 
@@ -26,6 +27,6 @@ public class Main extends Game {
 
     @Override
     public void create() {
-        setScreen(new Menu(this));
+        setScreen(new LoginScreen(this));
     }
 }

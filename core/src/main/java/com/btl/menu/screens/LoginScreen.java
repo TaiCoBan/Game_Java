@@ -4,28 +4,26 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-public class RegisterScreen extends GameScreen {
+public class LoginScreen extends GameScreen {
 
     private Stage stage;
     private Skin skin;
 
     // UI Components
-    private TextField emailField;
     private TextField usernameField;
     private TextField passwordField;
-    private TextField confirmPasswordField;
-    private TextButton registerButton;
-    private TextButton toLoginButton;
+    private TextButton loginButton;
+    private TextButton toRegisterButton;
     private Label errorLabel;
 
-    public RegisterScreen(Game game) {
+    public LoginScreen(Game game) {
         super(game);
     }
 
@@ -42,79 +40,56 @@ public class RegisterScreen extends GameScreen {
         stage.addActor(table);
 
         // Tạo các thành phần UI
-        Label titleLabel = new Label("Registration", skin);
-        emailField = new TextField("", skin);
+        Label titleLabel = new Label("Login", skin);
         usernameField = new TextField("", skin);
         passwordField = new TextField("", skin);
-        confirmPasswordField = new TextField("", skin);
-        registerButton = new TextButton("Submit", skin);
-        toLoginButton = new TextButton("Login", skin);
+        loginButton = new TextButton("Login", skin);
+        toRegisterButton = new TextButton("Register", skin);
         errorLabel = new Label("", skin);
         errorLabel.setColor(Color.RED);
 
         // Thiết lập placeholder và chế độ password
-        emailField.setMessageText("Email");
         usernameField.setMessageText("Username");
         passwordField.setMessageText("Password");
-        confirmPasswordField.setMessageText("Confirm Password");
         passwordField.setPasswordMode(true);
         passwordField.setPasswordCharacter('*');
-        confirmPasswordField.setPasswordMode(true);
-        confirmPasswordField.setPasswordCharacter('*');
 
         // Bố cục các thành phần
         table.add(titleLabel).colspan(2).padBottom(20).row();
-        table.add(new Label("Email:", skin)).padRight(10);
-        table.add(emailField).width(300).padBottom(10).row();
         table.add(new Label("Username:", skin)).padRight(10);
         table.add(usernameField).width(300).padBottom(10).row();
         table.add(new Label("Password:", skin)).padRight(10);
         table.add(passwordField).width(300).padBottom(10).row();
-        table.add(new Label("Confirm password:", skin)).padRight(10);
-        table.add(confirmPasswordField).width(300).padBottom(20).row();
-        table.add(registerButton).colspan(2).width(200).height(40).row();
-        table.add(toLoginButton).colspan(2).width(200).row();
+        table.add(loginButton).colspan(2).width(200).height(40).row();
+        table.add(toRegisterButton).colspan(2).width(200).height(40).row();
         table.add(errorLabel).colspan(2).padTop(10);
 
         // Xử lý sự kiện đăng ký
-        registerButton.addListener(new ClickListener() {
+        loginButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 handleRegistration();
             }
         });
 
-        toLoginButton.addListener(new ClickListener() {
+        toRegisterButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new LoginScreen(game));
+                game.setScreen(new RegisterScreen(game));
             }
         });
     }
 
     private void handleRegistration() {
-        String email = emailField.getText();
         String username = usernameField.getText();
         String password = passwordField.getText();
-        String confirmPassword = confirmPasswordField.getText();
-
-        // Kiểm tra validation
-        if (email.isEmpty() || username.isEmpty() || password.isEmpty()) {
-            errorLabel.setText("Fill all fields");
-            return;
-        }
-
-        if (!password.equals(confirmPassword)) {
-            errorLabel.setText("Passwords do not match");
-            return;
-        }
 
         // Gọi API đăng ký hoặc xử lý logic
         errorLabel.setText("Đăng ký thành công!");
         errorLabel.setColor(Color.GREEN);
 
         // Chuyển màn hình sau khi đăng ký
-         game.setScreen(new LoginScreen(game));
+        // game.setScreen(new LoginScreen(game));
     }
 
     @Override
@@ -136,4 +111,5 @@ public class RegisterScreen extends GameScreen {
         stage.dispose();
         skin.dispose();
     }
+
 }

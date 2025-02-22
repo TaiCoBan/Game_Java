@@ -65,7 +65,6 @@ public class Menu extends GameScreen {
             }
         });
 
-
         TextButton exitBtn = new TextButton("Exit Game", skin);
         mainTable.add(exitBtn).width(200).pad(5).row();
         exitBtn.addListener(new ClickListener() {
