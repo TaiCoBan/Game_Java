@@ -19,22 +19,23 @@ public class RegisterRequest {
 
     @Email
     @NotBlank(message = "Email must not be blank")
-    @NotNull(message = "Email must not be null")
     private String email;
+
     @Username
     @NotBlank(message = "Username must not be blank")
-    @NotNull(message = "Username must not be null")
-    @Size(min = 8, message = "Username must be at least 8 letters")
+    @Size(min = 8, max = 20, message = "Username must be 8-20 characters")
     private String username;
-    @Size(min = 8, message = "Password must be at least 8 letters")
+
     @NotBlank(message = "Password must not be blank")
-    @NotNull(message = "Password must not be null")
+    @Size(min = 8, message = "Password must be at least 8 letters")
     private String password;
+
+    @NotBlank(message = "Confirm password must not be blank")
     private String confirmPassword;
 
     public void validate() {
         if (!Objects.equals(password, confirmPassword)) {
-            throw new ApiException(ErrorCode.PARAMETER_ERROR);
+            throw new ApiException(ErrorCode.BAD_REQUEST);
         }
     }
 }

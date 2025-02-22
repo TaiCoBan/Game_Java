@@ -1,6 +1,7 @@
 package com.utc.api.service.impl;
 
 import com.utc.api.dto.request.ChangePasswordRequest;
+import com.utc.api.dto.request.LoginRequest;
 import com.utc.api.dto.request.RegisterRequest;
 import com.utc.api.dto.response.AccountResponse;
 import com.utc.api.entity.Account;
@@ -79,15 +80,27 @@ public class AccountServiceImpl extends BaseServiceImpl<Account> implements Acco
     }
 
     @Override
-    public AccountResponse changePassword(ChangePasswordRequest request) {
-        Account account = accountRepository.findByEmail(request.getEmail());
-        account.setPassword(passwordEncoder.encode(request.getPassword()));
-        return AccountResponse.from(update(account));
+    public AccountResponse login(LoginRequest request) {
+        Account account = accountRepository.findByUsername(request.getUsername())
+                              .orElseThrow(() -> new ApiException(ErrorCode.BAD_REQUEST));
+
+        if (!passwordEncoder.matches(request.getPassword(), account.getPassword())) {
+            throw new ApiException(ErrorCode.BAD_REQUEST);
+        }
+
+        return AccountResponse.from(account);
     }
 
     @Override
     public void logout(Account account) {
         System.out.println("LOGOUT");
+    }
+
+    @Override
+    public AccountResponse changePassword(ChangePasswordRequest request) {
+        Account account = accountRepository.findByEmail(request.getEmail());
+        account.setPassword(passwordEncoder.encode(request.getPassword()));
+        return AccountResponse.from(update(account));
     }
 
     @Override

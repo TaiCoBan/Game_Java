@@ -25,7 +25,7 @@ public class ChangePasswordRequest {
 
     public void validate() {
         if (Objects.equals(password, confirmPassword)) {
-            throw new ApiException(ErrorCode.PARAMETER_ERROR);
+            throw new ApiException(ErrorCode.BAD_REQUEST);
         }
     }
 }

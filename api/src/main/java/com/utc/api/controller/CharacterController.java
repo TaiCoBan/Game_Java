@@ -7,6 +7,8 @@ import com.utc.api.service.CharacterService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/characters/")
 public class CharacterController {
@@ -28,7 +30,7 @@ public class CharacterController {
     @GetMapping
     public ApiResponse<?> findAll() {
         return ApiResponse
-                   .<CharacterResponse>builder()
+                   .<List<CharacterResponse>>builder()
                    .result(characterService.findAll())
                    .build();
     }

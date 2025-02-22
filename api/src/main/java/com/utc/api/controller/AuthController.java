@@ -33,7 +33,10 @@ public class AuthController {
 
     @PostMapping("login")
     public ApiResponse<?> login(@Valid @RequestBody LoginRequest request) {
-        return null;
+        return ApiResponse
+                   .<AccountResponse>builder()
+                   .result(accountService.login(request))
+                   .build();
     }
 
     @PostMapping("logout")

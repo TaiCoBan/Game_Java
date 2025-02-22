@@ -27,13 +27,16 @@ public class SecurityConfiguration {
                                                    // PUBLIC
                                                    .requestMatchers(
                                                        "/public",
-                                                       "/auth/register"
+                                                       "/auth/register",
+                                                       "/auth/login",
+                                                       "/auth/logout"
                                                    )
                                                    .permitAll()
 
                                                    //
                                                    .requestMatchers(
-                                                       "/**"
+                                                       "/**",
+                                                       "/auth/change-password"
                                                    )
                                                    .hasAnyRole(ROLE_USER, ROLE_ADMIN)
 
