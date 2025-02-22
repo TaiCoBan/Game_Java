@@ -1,5 +1,7 @@
 package com.utc.api.controller;
 
+import com.utc.api.dto.request.ChangePasswordRequest;
+import com.utc.api.dto.request.LoginRequest;
 import com.utc.api.dto.request.RegisterRequest;
 import com.utc.api.dto.response.AccountResponse;
 import com.utc.api.dto.response.ApiResponse;
@@ -29,8 +31,23 @@ public class AuthController {
                    .build();
     }
 
+    @PostMapping("login")
+    public ApiResponse<?> login(@Valid @RequestBody LoginRequest request) {
+        return null;
+    }
+
     @PostMapping("logout")
     public String logout() {
         return "LOGOUT";
+    }
+
+    @PutMapping("change-password")
+    public ApiResponse<AccountResponse> update(@Valid @RequestBody ChangePasswordRequest request) {
+        request.validate();
+        return ApiResponse
+                   .<AccountResponse>builder()
+                   .code(HttpStatus.CREATED.value())
+                   .result(accountService.changePassword(request))
+                   .build();
     }
 }

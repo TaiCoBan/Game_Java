@@ -18,6 +18,8 @@ import lombok.Setter;
 public class Item extends BaseEntity {
 
     private String name;
+    private float health;
+    private float attack;
     @ManyToOne
     @JoinColumn(name = "class_id")
     private Class _class;

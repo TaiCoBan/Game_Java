@@ -1,7 +1,11 @@
 package com.utc.api.dto.request;
 
+import com.utc.api.exception.ApiException;
+import com.utc.api.exception.ErrorCode;
 import jakarta.validation.constraints.*;
 import lombok.Data;
+
+import java.util.Objects;
 
 @Data
 public class ChangePasswordRequest {
@@ -18,4 +22,10 @@ public class ChangePasswordRequest {
     @NotNull(message = "Password must not be null")
     private String password;
     private String confirmPassword;
+
+    public void validate() {
+        if (Objects.equals(password, confirmPassword)) {
+            throw new ApiException(ErrorCode.PARAMETER_ERROR);
+        }
+    }
 }

@@ -13,12 +13,14 @@ public class InventoryResponse {
 
     private Long id;
     private String name;
+    private int quantity;
     private List<Long> items;
 
     public static InventoryResponse from(Inventory inventory) {
         return new InventoryResponse(
             inventory.getId(),
             inventory.getName(),
+            inventory.getQuantity(),
             inventory.getItems().stream().map(item -> item.getId()).collect(Collectors.toList())
         );
     }

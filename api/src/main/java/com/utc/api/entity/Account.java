@@ -18,18 +18,14 @@ import java.util.stream.Collectors;
 @Setter
 public class Account extends BaseEntity {
 
+    @Column(unique = true)
     private String email;
+    @Column(unique = true)
     private String username;
     private String password;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
-    @ManyToMany
-    @JoinTable(
-        name = "account_characters",
-        joinColumns = @JoinColumn(name = "account_id"),
-        inverseJoinColumns = @JoinColumn(name = "characters_id")
-
-    )
+    @OneToMany(mappedBy = "account")
     private Set<Character> characters = new HashSet<>();
     @OneToMany(mappedBy = "account")
     private Set<Inventory> inventories = new HashSet<>();

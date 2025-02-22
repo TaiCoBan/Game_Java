@@ -17,6 +17,7 @@ import java.util.List;
 public class Inventory extends BaseEntity {
 
     private String name;
+    private int quantity;
     @ManyToMany
     @JoinTable(
         name = "inventory_item",

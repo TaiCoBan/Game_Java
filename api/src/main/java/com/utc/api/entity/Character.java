@@ -20,8 +20,11 @@ import java.util.Set;
 public class Character extends BaseEntity {
 
     private String name;
-    @ManyToMany(mappedBy = "characters")
-    private Set<Account> account = new HashSet<>();
+    private float health;
+    private float attack;
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
     @ManyToOne
     @JoinColumn(name = "class_id")
     private Class _class;

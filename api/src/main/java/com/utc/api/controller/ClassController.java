@@ -2,35 +2,36 @@ package com.utc.api.controller;
 
 
 import com.utc.api.dto.response.ApiResponse;
+import com.utc.api.dto.response.ClassResponse;
 import com.utc.api.service.CharacterService;
+import com.utc.api.service.ClassService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/classes/")
 public class ClassController {
 
-    @PostMapping
-    public ApiResponse<?> create() {
-        return ApiResponse.<String>builder().result("Create").build();
+    private final ClassService classService;
+
+    public ClassController(ClassService classService) {
+        this.classService = classService;
     }
 
     @GetMapping
     public ApiResponse<?> list() {
-        return ApiResponse.<String>builder().result("List").build();
+        return ApiResponse
+                   .<List<ClassResponse>>builder()
+                   .result(classService.findAll())
+                   .build();
     }
 
     @GetMapping("{id}")
     public ApiResponse<?> findById(@PathVariable Long id) {
-        return ApiResponse.<String>builder().result("Find by id").build();
-    }
-
-    @PutMapping
-    public ApiResponse<?> update(@RequestBody Character character) {
-        return ApiResponse.<String>builder().result("Update").build();
-    }
-
-    @DeleteMapping
-    public ApiResponse<?> delete() {
-        return ApiResponse.<String>builder().result("Delete").build();
+        return ApiResponse
+                   .<ClassResponse>builder()
+                   .result(classService.findById(id))
+                   .build();
     }
 }

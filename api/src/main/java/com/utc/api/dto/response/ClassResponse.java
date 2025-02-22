@@ -10,8 +10,8 @@ public class ClassResponse {
 
     private Long id;
     private String name;
-    private int baseHealth;
-    private int baseAttack;
+    private float baseHealth;
+    private float baseAttack;
 
     public static ClassResponse from(Class clazz) {
         return new ClassResponse(

@@ -1,35 +1,36 @@
 package com.utc.api.controller;
 
 import com.utc.api.dto.response.ApiResponse;
+import com.utc.api.dto.response.ItemResponse;
+import com.utc.api.service.ItemService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/items/")
 public class ItemController {
 
-    @PostMapping
-    public ApiResponse<?> create() {
-        return ApiResponse.<String>builder().result("Create").build();
+    private final ItemService itemService;
+
+    public ItemController(ItemService itemService) {
+        this.itemService = itemService;
     }
 
     @GetMapping
     public ApiResponse<?> list() {
-        return ApiResponse.<String>builder().result("List").build();
+        return ApiResponse
+                   .<List<ItemResponse>>builder()
+                   .result(itemService.findAll())
+                   .build();
     }
 
     @GetMapping("{id}")
     public ApiResponse<?> findById(@PathVariable Long id) {
-        return ApiResponse.<String>builder().result("Find by id").build();
-    }
-
-    @PutMapping
-    public ApiResponse<?> update(@RequestBody Character character) {
-        return ApiResponse.<String>builder().result("Update").build();
-    }
-
-    @DeleteMapping
-    public ApiResponse<?> delete() {
-        return ApiResponse.<String>builder().result("Delete").build();
+        return ApiResponse
+                   .<ItemResponse>builder()
+                   .result(itemService.findById(id))
+                   .build();
     }
 }
 

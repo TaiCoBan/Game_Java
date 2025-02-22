@@ -2,6 +2,7 @@ package com.utc.api.configuration.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -24,15 +25,30 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(requests -> requests
                                                    // PUBLIC
-                                                   .requestMatchers("/auth/**").permitAll()
-                                                   .requestMatchers("/accounts/**").permitAll()
-                                                   .requestMatchers("/public").permitAll()
+                                                   .requestMatchers(
+                                                       "/public",
+                                                       "/auth/register"
+                                                   )
+                                                   .permitAll()
+
+                                                   //
+                                                   .requestMatchers(
+                                                       "/**"
+                                                   )
+                                                   .hasAnyRole(ROLE_USER, ROLE_ADMIN)
 
                                                    // ADMIN
-                                                   .requestMatchers("/admin").hasRole(ROLE_ADMIN)
+                                                   .requestMatchers(
+                                                       "/admin"
+                                                   )
+                                                   .hasRole(ROLE_ADMIN)
 
                                                    // USER
-                                                   .requestMatchers("/user").hasRole(ROLE_USER)
+                                                   .requestMatchers(
+                                                        "/user"
+                                                   )
+                                                   .hasRole(ROLE_USER)
+
                                                    .anyRequest().authenticated());
 
         http.httpBasic(Customizer.withDefaults());

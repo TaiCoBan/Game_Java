@@ -10,16 +10,16 @@ public class ItemResponse {
 
     private Long id;
     private String name;
-    private int baseHealth;
-    private int baseAttack;
+    private float baseHealth;
+    private float baseAttack;
     private String _class;
 
     public static ItemResponse from(Item item) {
         return new ItemResponse(
             item.getId(),
             item.getName(),
-            item.get_class().getBaseHealth(),
-            item.get_class().getBaseAttack(),
+            item.getHealth(),
+            item.getAttack(),
             item.get_class().getName()
         );
     }

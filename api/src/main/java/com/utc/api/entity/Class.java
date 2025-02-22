@@ -18,8 +18,8 @@ import java.util.Set;
 public class Class extends BaseEntity {
 
     private String name;
-    private int baseHealth;
-    private int baseAttack;
+    private float baseHealth;
+    private float baseAttack;
     @OneToMany(mappedBy = "_class")
     private Set<Character> characters;
     @OneToMany(mappedBy = "_class")

@@ -7,6 +7,7 @@ import com.utc.api.service.AccountService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestClient;
 
 import java.util.List;
 
@@ -20,30 +21,11 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    @GetMapping
-    public ApiResponse<?> list() {
-        return ApiResponse
-                   .<List<AccountResponse>>builder()
-                   .code(HttpStatus.OK.value())
-                   .result(accountService.listDTO())
-                   .build();
-    }
-
-    @GetMapping("{id}")
-    public ApiResponse<AccountResponse> findById(@PathVariable("id") Long id) {
+    @GetMapping("profile")
+    public ApiResponse<?> getProfile() {
         return ApiResponse
                    .<AccountResponse>builder()
-                   .code(HttpStatus.OK.value())
-                   .result(accountService.findDTO(id))
-                   .build();
-    }
-
-    @PutMapping
-    public ApiResponse<AccountResponse> update(@RequestBody @Valid ChangePasswordRequest request) {
-        return ApiResponse
-                   .<AccountResponse>builder()
-                   .code(HttpStatus.CREATED.value())
-                   .result(accountService.updateDTO(request))
+                   .result(accountService.getProfile())
                    .build();
     }
 }

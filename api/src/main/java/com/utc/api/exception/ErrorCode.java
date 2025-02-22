@@ -5,8 +5,9 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 public enum ErrorCode {
-    NOT_FOUND(404, "Not found exception", HttpStatus.NOT_FOUND),
     PARAMETER_ERROR(400, "Parameter error", HttpStatus.BAD_REQUEST),
+    FORBIDDEN_ERROR(403, "Forbidden error", HttpStatus.FORBIDDEN),
+    NOT_FOUND(404, "Not found exception", HttpStatus.NOT_FOUND),
     ;
 
     private final int code;

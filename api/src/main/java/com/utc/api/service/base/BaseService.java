@@ -8,7 +8,7 @@ import java.util.List;
 public interface BaseService<T extends BaseEntity> {
 
     T create(T t);
-    T find(Long id) throws ApiException;
+    T find(Long id);
     List<T> list();
     T update(T t);
     void delete(Long id);
