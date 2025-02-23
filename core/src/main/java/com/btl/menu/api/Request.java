@@ -9,8 +9,10 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.btl.menu.dto.response.ApiResponse;
 import com.btl.menu.entity.Account;
+import com.btl.menu.service.GameService;
 import com.btl.menu.service.LocalStorageService;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static com.btl.menu.constant.Constant.*;
 
@@ -18,23 +20,23 @@ public class Request {
     private final Game game;
     private final HttpRequestBuilder httpRequestBuilder;
     private final LocalStorageService localStorageService;
+    private final ObjectMapper objectMapper;
 
-    public Request(Game game, LocalStorageService localStorageService) {
+    public Request(Game game,
+                   LocalStorageService localStorageService,
+                   ObjectMapper objectMapper) {
         this.game = game;
         this.httpRequestBuilder = new HttpRequestBuilder();
         this.localStorageService = localStorageService;
+        this.objectMapper = objectMapper;
     }
 
-    public <T> void sendRequest(String method, String url, Object object, TypeReference<ApiResponse<T>> typeReference) {
-        String cacheKey = method + ":" + url;
-        // Kiểm tra cache trước khi gửi request
-        T cachedResult = localStorageService.get(cacheKey, new TypeReference<T>() {});
-        if (cachedResult != null) {
-            // Xử lý dữ liệu từ cache
-            return;
-        }
-
-        Gdx.app.log("Request", "[" + method + "] " + url);
+    public <T> void sendRequest(String method,
+                                String url,
+                                Object object,
+                                String cacheKey,
+                                TypeReference<ApiResponse<T>> typeReference) {
+        Gdx.app.log("SEND REQUEST", "[" + method + "] " + url);
         Net.HttpRequest request = httpRequestBuilder.newRequest()
                                       .method(method)
                                       .url(url)
@@ -48,6 +50,6 @@ public class Request {
             request.setContent(requestBody);
         }
 
-        Gdx.net.sendHttpRequest(request, new ResponseListener<>(game, localStorageService, cacheKey, typeReference));
+        Gdx.net.sendHttpRequest(request, new ResponseListener<>(game, localStorageService, objectMapper, cacheKey, typeReference));
     }
 }

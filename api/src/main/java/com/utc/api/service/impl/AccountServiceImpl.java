@@ -7,6 +7,7 @@ import com.utc.api.dto.response.AccountResponse;
 import com.utc.api.entity.Account;
 import com.utc.api.entity.Character;
 import com.utc.api.entity.Inventory;
+import com.utc.api.entity.Role;
 import com.utc.api.exception.ApiException;
 import com.utc.api.exception.ErrorCode;
 import com.utc.api.repository.AccountRepository;
@@ -14,6 +15,7 @@ import com.utc.api.repository.CharacterRepository;
 import com.utc.api.repository.InventoryRepository;
 import com.utc.api.repository.RoleRepository;
 import com.utc.api.service.AccountService;
+import com.utc.api.service.RoleService;
 import com.utc.api.service.base.impl.BaseServiceImpl;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +25,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static com.utc.api.constants.Constant.ROLE_USER;
 
 @Service
 public class AccountServiceImpl extends BaseServiceImpl<Account> implements AccountService {
@@ -53,6 +57,8 @@ public class AccountServiceImpl extends BaseServiceImpl<Account> implements Acco
         account.setUsername(request.getUsername());
         account.setEmail(request.getEmail());
         account.setPassword(passwordEncoder.encode(request.getPassword()));
+        Role role = roleRepository.findByName(ROLE_USER);
+        account.getRoles().add(role);
         accountRepository.save(account);
 
         Character baseChar = new Character();

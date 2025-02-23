@@ -1,6 +1,7 @@
 package com.btl.menu.service;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.btl.menu.api.Request;
 import com.btl.menu.dto.request.RegisterRequest;
 import com.btl.menu.dto.response.AccountResponse;
@@ -28,15 +29,12 @@ public class AccountService {
     }
 
     public void register(RegisterRequest rq) {
-//        request.sendRequest(POST, REGISTER_URL, rq);
-    }
-
-    public void getAccount() {
-        request.sendRequest(GET, ACCOUNT_URL + "1", null, new TypeReference< ApiResponse<AccountResponse> >() {
-        });
-    }
-
-    public void getAllAccount() {
-        request.sendRequest(GET, ACCOUNT_URL, null, new TypeReference< ApiResponse<List<AccountResponse>> >() {});
+        Gdx.app.log("REGISTER", rq.toString());
+        request.sendRequest(
+            POST,
+            REGISTER_URL,
+            rq,
+            ACCOUNT_CACHE_KEY,
+            new TypeReference< ApiResponse<AccountResponse> >() {});
     }
 }

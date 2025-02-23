@@ -12,5 +12,5 @@ import java.util.List;
 public class InventoryResponse {
 
     private String name;
-    private List<ItemResponse> items;
+    private List<Long> items;
 }

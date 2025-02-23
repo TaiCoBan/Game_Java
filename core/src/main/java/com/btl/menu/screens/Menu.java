@@ -51,20 +51,6 @@ public class Menu extends GameScreen {
         mainTable.add(getAccountBtn).width(200).pad(5).row();
         mainTable.add(getAllBtn).width(200).pad(5).row();
 
-        getAccountBtn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                gameService.accountService.getAccount();
-            }
-        });
-
-        getAllBtn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                gameService.accountService.getAllAccount();
-            }
-        });
-
         TextButton exitBtn = new TextButton("Exit Game", skin);
         mainTable.add(exitBtn).width(200).pad(5).row();
         exitBtn.addListener(new ClickListener() {

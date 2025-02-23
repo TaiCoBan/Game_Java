@@ -16,6 +16,6 @@ public class AccountResponse {
     private Long id;
     private String username;
     private String email;
-    private Set<CharacterResponse> characters;
-    private Set<InventoryResponse> inventories;
+    private Set<Long> characters;
+    private Set<Long> inventories;
 }

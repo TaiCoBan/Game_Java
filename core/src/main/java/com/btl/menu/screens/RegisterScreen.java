@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.btl.menu.dto.request.RegisterRequest;
 
 public class RegisterScreen extends GameScreen {
 
@@ -109,12 +110,12 @@ public class RegisterScreen extends GameScreen {
             return;
         }
 
-        // Gọi API đăng ký hoặc xử lý logic
-        errorLabel.setText("Đăng ký thành công!");
-        errorLabel.setColor(Color.GREEN);
+        System.out.println(email);
+        System.out.println(username);
+        System.out.println(password);
+        System.out.println(confirmPassword);
 
-        // Chuyển màn hình sau khi đăng ký
-         game.setScreen(new LoginScreen(game));
+        gameService.accountService.register(new RegisterRequest(email, username, password, confirmPassword));
     }
 
     @Override

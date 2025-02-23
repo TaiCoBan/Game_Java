@@ -7,6 +7,7 @@ public class Constant {
         // AUTH
     public static final String AUTH_URL = BASE_API_URL + "auth/";
     public static final String REGISTER_URL = AUTH_URL + "register";
+    public static final String LOGIN_URL = AUTH_URL + "login";
     public static final String LOGOUT = AUTH_URL + "logout";
         // ACCOUNT
     public static final String BASE_ACCOUNT_URL = "accounts/";
@@ -23,10 +24,9 @@ public class Constant {
     public static final String PUT = "PUT";
     public static final String DELETE = "DELETE";
 
-    // LOCAL STORAGE
-    public static final String ACCOUNT_KEY = "account";
-    public static final String CHARACTER_KEY = "character";
-    public static final String INVENTORY_KEY = "inventory";
-    public static final String ITEM_KEY = "item";
-
+    // CACHE KEY
+    public static final String ACCOUNT_CACHE_KEY = "account";
+    public static final String CHARACTER_CACHE_KEY = "character";
+    public static final String INVENTORY_CACHE_KEY = "inventory";
+    public static final String ITEM_CACHE_KEY = "item";
 }

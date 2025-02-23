@@ -14,42 +14,62 @@ import java.util.ArrayList;
 public class ResponseListener<T> implements Net.HttpResponseListener {
     private final Game game;
     private final LocalStorageService localStorageService;
+    private final ObjectMapper objectMapper;
     private final String cacheKey;
     private final TypeReference<ApiResponse<T>> typeReference;
 
-    public ResponseListener(Game game, LocalStorageService localStorageService, String cacheKey, TypeReference<ApiResponse<T>> typeReference) {
+    public ResponseListener(Game game,
+                            LocalStorageService localStorageService,
+                            ObjectMapper objectMapper,
+                            String cacheKey,
+                            TypeReference<ApiResponse<T>> typeReference) {
         this.game = game;
         this.localStorageService = localStorageService;
+        this.objectMapper = objectMapper;
         this.cacheKey = cacheKey;
         this.typeReference = typeReference;
     }
 
     @Override
     public void handleHttpResponse(Net.HttpResponse httpResponse) {
-        String response = httpResponse.getResultAsString();
-        ObjectMapper objectMapper = new ObjectMapper();
+        handleResponse(httpResponse);
+    }
+
+    private void handleResponse(Net.HttpResponse httpResponse) {
+        ApiResponse<T> apiResponse = null;
         try {
-            ApiResponse<T> apiResponse = objectMapper.readValue(response, typeReference);
-            T result = apiResponse.getResult();
-            localStorageService.put(cacheKey, result);
-            // Xử lý result ở đây (ví dụ: cập nhật UI)
-            Gdx.app.log("ApiResponse", apiResponse.toString());
-            Gdx.app.log("ApiResponse result", apiResponse.getResult().getClass().getSimpleName() + apiResponse.getResult());
-            Gdx.app.log("ApiResponse T", result.getClass().getSimpleName() + result);
+            apiResponse = objectMapper.readValue(httpResponse.getResultAsString(), typeReference);
         } catch (JsonProcessingException e) {
             Gdx.app.error("JSON Error", e.getMessage());
-        } catch (Exception e) {
-            Gdx.app.error("Error", e.getMessage());
         }
+
+        int statusCode = apiResponse.getCode();
+
+        switch (statusCode) {
+            case 200, 201: {
+                cacheResponse(apiResponse);
+                break;
+            }
+            case 400, 403, 404: {
+                break;
+            }
+        }
+
+        Gdx.app.log("RESPONSE MESSAGE", apiResponse.getCode() + " " + apiResponse.getMessage());
+    }
+
+    private void cacheResponse(ApiResponse<T> apiResponse) {
+        T result = apiResponse.getResult();
+        localStorageService.put(cacheKey, result);
     }
 
     @Override
-    public void failed(Throwable t) {
-        Gdx.app.error("Failed", t.toString());
+    public void failed(Throwable throwable) {
+        Gdx.app.error("Error", throwable.getMessage());
     }
 
     @Override
     public void cancelled() {
-        Gdx.app.debug("Cancelled", "Request cancelled");
+        Gdx.app.error("Error", "Cancelled");
     }
 }
