@@ -10,11 +10,13 @@ import com.utc.api.repository.InventoryRepository;
 import com.utc.api.repository.ItemRepository;
 import com.utc.api.service.InventoryService;
 import com.utc.api.service.base.impl.BaseServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class InventoryServiceImpl extends BaseServiceImpl<Inventory> implements InventoryService {
 
@@ -39,6 +41,7 @@ public class InventoryServiceImpl extends BaseServiceImpl<Inventory> implements 
 
     @Override
     public InventoryResponse findById(Long id) {
+        log.info("(find) id: {}", id);
         try {
             return InventoryResponse.from(repository.findByIdAndUser(id));
         } catch (Exception e) {

@@ -17,6 +17,7 @@ import com.utc.api.repository.RoleRepository;
 import com.utc.api.service.AccountService;
 import com.utc.api.service.RoleService;
 import com.utc.api.service.base.impl.BaseServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,6 +30,7 @@ import java.util.stream.Collectors;
 import static com.utc.api.constants.Constant.ROLE_USER;
 
 @Service
+@Slf4j
 public class AccountServiceImpl extends BaseServiceImpl<Account> implements AccountService {
 
     private final AccountRepository accountRepository;
@@ -52,6 +54,7 @@ public class AccountServiceImpl extends BaseServiceImpl<Account> implements Acco
 
     @Override
     public AccountResponse register(RegisterRequest request) {
+        log.info("(register) request: {}", request);
         Account account = new Account();
 
         account.setUsername(request.getUsername());
@@ -87,6 +90,7 @@ public class AccountServiceImpl extends BaseServiceImpl<Account> implements Acco
 
     @Override
     public AccountResponse login(LoginRequest request) {
+        log.info("(login) request: {}", request);
         Account account = accountRepository.findByUsername(request.getUsername())
                               .orElseThrow(() -> new ApiException(ErrorCode.BAD_REQUEST));
 
@@ -99,11 +103,12 @@ public class AccountServiceImpl extends BaseServiceImpl<Account> implements Acco
 
     @Override
     public void logout(Account account) {
-        System.out.println("LOGOUT");
+        log.info("(logout) account: {}", account);
     }
 
     @Override
     public AccountResponse changePassword(ChangePasswordRequest request) {
+        log.info("(changePassword) request: {}", request);
         Account account = accountRepository.findByEmail(request.getEmail());
         account.setPassword(passwordEncoder.encode(request.getPassword()));
         return AccountResponse.from(update(account));
