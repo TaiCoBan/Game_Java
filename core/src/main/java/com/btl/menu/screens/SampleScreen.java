@@ -4,12 +4,12 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import com.btl.menu.service.GameService;
 
-public abstract class GameScreen implements Screen {
+public abstract class SampleScreen implements Screen {
 
     Game game;
     GameService gameService;
 
-    public GameScreen(Game game) {
+    public SampleScreen(Game game) {
         this.game = game;
         gameService = new GameService(game);
     }

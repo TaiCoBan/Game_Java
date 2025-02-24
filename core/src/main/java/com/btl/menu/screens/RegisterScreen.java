@@ -8,11 +8,10 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.btl.menu.dto.request.RegisterRequest;
 
-public class RegisterScreen extends GameScreen {
+public class RegisterScreen extends SampleScreen {
 
     private Stage stage;
     private Skin skin;
