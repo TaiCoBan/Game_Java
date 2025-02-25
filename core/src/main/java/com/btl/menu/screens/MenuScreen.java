@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.btl.menu.Main;
 import com.btl.menu.dto.response.AccountResponse;
 import com.btl.menu.service.base.GameService;
 
@@ -20,7 +21,6 @@ public class MenuScreen extends SampleScreen {
     private Skin skin;
 
     private TextButton playButton;
-    private TextButton myButton;
     private TextButton exitButton;
 
     public MenuScreen(Game game,
@@ -41,20 +41,23 @@ public class MenuScreen extends SampleScreen {
 
         Label titleLabel = new Label("MENU", skin);
         playButton = new TextButton("Play", skin);
-        myButton = new TextButton("Get all cache", skin);
         exitButton = new TextButton("Exit", skin);
 
         table.add(titleLabel).colspan(2).padBottom(20).row();
         table.add(playButton).colspan(2).width(200).height(40).row();
-        table.add(myButton).colspan(2).width(200).height(40).row();
         table.add(exitButton).colspan(2).width(200).height(40).row();
 
-
-        myButton.addListener(new ClickListener() {
+        playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                AccountResponse accountResponse = gameService.localStorageService.get(ACCOUNT_CACHE_KEY, AccountResponse.class);
-                Gdx.app.debug(DEBUG, "MENU : " + accountResponse);
+                game.setScreen(((Main) game).getScreens().gameScreen);
+            }
+        });
+
+        exitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit();
             }
         });
     }

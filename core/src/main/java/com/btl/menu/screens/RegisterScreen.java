@@ -9,6 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.btl.menu.Main;
+import com.btl.menu.dto.request.RegisterRequest;
 import com.btl.menu.service.base.GameService;
 
 public class RegisterScreen extends SampleScreen {
@@ -24,6 +26,7 @@ public class RegisterScreen extends SampleScreen {
     private TextButton registerButton;
     private TextButton toLoginButton;
     private Label errorLabel;
+
 
     public RegisterScreen(Game game,
                           GameService gameService) {
@@ -49,7 +52,7 @@ public class RegisterScreen extends SampleScreen {
         passwordField = new TextField("", skin);
         confirmPasswordField = new TextField("", skin);
         registerButton = new TextButton("Submit", skin);
-        toLoginButton = new TextButton("Login", skin);
+        toLoginButton = new TextButton("To Login", skin);
         errorLabel = new Label("", skin);
         errorLabel.setColor(Color.RED);
 
@@ -77,7 +80,6 @@ public class RegisterScreen extends SampleScreen {
         table.add(toLoginButton).colspan(2).width(200).row();
         table.add(errorLabel).colspan(2).padTop(10);
 
-        // Xử lý sự kiện đăng ký
         registerButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -88,6 +90,7 @@ public class RegisterScreen extends SampleScreen {
         toLoginButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(((Main) game).getScreens().loginScreen);
             }
         });
     }
@@ -98,23 +101,21 @@ public class RegisterScreen extends SampleScreen {
         String password = passwordField.getText();
         String confirmPassword = confirmPasswordField.getText();
 
-        // Kiểm tra validation
+        // VALIDATION
         if (email.isEmpty() || username.isEmpty() || password.isEmpty()) {
             errorLabel.setText("Fill all fields");
             return;
         }
-
+        if (!isValidEmail(email)) {
+            errorLabel.setText("Invalid email format");
+            return;
+        }
         if (!password.equals(confirmPassword)) {
             errorLabel.setText("Passwords do not match");
             return;
         }
 
-        System.out.println(email);
-        System.out.println(username);
-        System.out.println(password);
-        System.out.println(confirmPassword);
-
-//        gameService.accountService.register(new RegisterRequest(email, username, password, confirmPassword));
+        gameService.accountService.register(new RegisterRequest(email, username, password, confirmPassword));
     }
 
     @Override
@@ -136,4 +137,10 @@ public class RegisterScreen extends SampleScreen {
         stage.dispose();
         skin.dispose();
     }
+
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        return email.matches(emailRegex);
+    }
+
 }

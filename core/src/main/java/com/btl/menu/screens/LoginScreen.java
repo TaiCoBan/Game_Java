@@ -87,7 +87,6 @@ public class LoginScreen extends SampleScreen {
         String password = passwordField.getText();
 
         gameService.accountService.login(new LoginRequest(username, password));
-        game.setScreen(((Main) game).getScreens().menuScreen);
     }
 
     @Override
