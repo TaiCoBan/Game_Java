@@ -4,8 +4,8 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.btl.menu.Main;
 import com.btl.menu.entity.Character;
+import com.btl.menu.service.base.GameService;
 
 public class GameScreen extends SampleScreen{
 
@@ -13,8 +13,9 @@ public class GameScreen extends SampleScreen{
     Texture background;
     Character character;
 
-    public GameScreen(Game game){
-        super(game);
+    public GameScreen(Game game,
+                      GameService gameService){
+        super(game, gameService);
     }
 
     @Override

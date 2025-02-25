@@ -29,4 +29,10 @@ public class Constant {
     public static final String CHARACTER_CACHE_KEY = "character";
     public static final String INVENTORY_CACHE_KEY = "inventory";
     public static final String ITEM_CACHE_KEY = "item";
+
+    // LOGGING
+    public static final String INFO = "INFO";
+    public static final String DEBUG = "DEBUG";
+    public static final String WARN = "WARN";
+    public static final String ERROR = "ERROR";
 }

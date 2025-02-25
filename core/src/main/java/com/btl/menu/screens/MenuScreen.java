@@ -3,79 +3,79 @@ package com.btl.menu.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.btl.menu.dto.response.AccountResponse;
+import com.btl.menu.service.base.GameService;
+
+import static com.btl.menu.constant.Constant.ACCOUNT_CACHE_KEY;
+import static com.btl.menu.constant.Constant.DEBUG;
 
 public class MenuScreen extends SampleScreen {
 
     private Stage stage;
-    private SpriteBatch batch;
-    private Texture background;
     private Skin skin;
 
-    public MenuScreen(Game game) {
-        super(game);
+    private TextButton playButton;
+    private TextButton myButton;
+    private TextButton exitButton;
 
-        batch = new SpriteBatch();
+    public MenuScreen(Game game,
+                      GameService gameService) {
+        super(game, gameService);
+    }
+
+    @Override
+    public void show() {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
-        background = new Texture("libgdx.png");
-
         skin = new Skin(Gdx.files.internal("uiskin.json"));
 
-        Table mainTable = new Table();
-        mainTable.setFillParent(true);
-        stage.addActor(mainTable);
+        Table table = new Table();
+        table.setFillParent(true);
+        stage.addActor(table);
 
-        // BUTTON
-        TextButton registerBtn = new TextButton("Register", skin);
-        TextButton getAccountBtn = new TextButton("Get Account", skin);
-        TextButton getAllBtn = new TextButton("Get All", skin);
-        mainTable.add(registerBtn).width(200).pad(5).row();
-        mainTable.add(getAccountBtn).width(200).pad(5).row();
-        mainTable.add(getAllBtn).width(200).pad(5).row();
+        Label titleLabel = new Label("MENU", skin);
+        playButton = new TextButton("Play", skin);
+        myButton = new TextButton("Get all cache", skin);
+        exitButton = new TextButton("Exit", skin);
 
-        TextButton exitBtn = new TextButton("Exit Game", skin);
-        mainTable.add(exitBtn).width(200).pad(5).row();
-        exitBtn.addListener(new ClickListener() {
+        table.add(titleLabel).colspan(2).padBottom(20).row();
+        table.add(playButton).colspan(2).width(200).height(40).row();
+        table.add(myButton).colspan(2).width(200).height(40).row();
+        table.add(exitButton).colspan(2).width(200).height(40).row();
+
+
+        myButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
+                AccountResponse accountResponse = gameService.localStorageService.get(ACCOUNT_CACHE_KEY, AccountResponse.class);
+                Gdx.app.debug(DEBUG, "MENU : " + accountResponse);
             }
         });
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // Vẽ nền
-        batch.begin();
-        batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.end();
-
-        // Vẽ UI (các nút, label...)
         stage.act(delta);
         stage.draw();
     }
 
     @Override
-    public void hide() {
-        Gdx.input.setInputProcessor(null);
+    public void resize(int width, int height) {
+        stage.getViewport().update(width, height, true);
     }
 
     @Override
     public void dispose() {
         stage.dispose();
-        batch.dispose();
-        background.dispose();
         skin.dispose();
     }
 }

@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.btl.menu.dto.request.RegisterRequest;
+import com.btl.menu.service.base.GameService;
 
 public class RegisterScreen extends SampleScreen {
 
@@ -25,8 +25,9 @@ public class RegisterScreen extends SampleScreen {
     private TextButton toLoginButton;
     private Label errorLabel;
 
-    public RegisterScreen(Game game) {
-        super(game);
+    public RegisterScreen(Game game,
+                          GameService gameService) {
+        super(game, gameService);
     }
 
     @Override
@@ -87,7 +88,6 @@ public class RegisterScreen extends SampleScreen {
         toLoginButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new LoginScreen(game));
             }
         });
     }
@@ -114,7 +114,7 @@ public class RegisterScreen extends SampleScreen {
         System.out.println(password);
         System.out.println(confirmPassword);
 
-        gameService.accountService.register(new RegisterRequest(email, username, password, confirmPassword));
+//        gameService.accountService.register(new RegisterRequest(email, username, password, confirmPassword));
     }
 
     @Override

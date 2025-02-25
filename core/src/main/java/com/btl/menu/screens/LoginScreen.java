@@ -9,6 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.btl.menu.Main;
+import com.btl.menu.dto.request.LoginRequest;
+import com.btl.menu.service.base.GameService;
 
 public class LoginScreen extends SampleScreen {
 
@@ -22,8 +25,8 @@ public class LoginScreen extends SampleScreen {
     private TextButton toRegisterButton;
     private Label errorLabel;
 
-    public LoginScreen(Game game) {
-        super(game);
+    public LoginScreen(Game game, GameService gameService) {
+        super(game, gameService);
     }
 
     @Override
@@ -67,28 +70,24 @@ public class LoginScreen extends SampleScreen {
         loginButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                handleRegistration();
+                handleLogin();
             }
         });
 
         toRegisterButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new RegisterScreen(game));
+                game.setScreen(((Main) game).getScreens().registerScreen);
             }
         });
     }
 
-    private void handleRegistration() {
+    private void handleLogin() {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-        // Gọi API đăng ký hoặc xử lý logic
-        errorLabel.setText("Đăng ký thành công!");
-        errorLabel.setColor(Color.GREEN);
-
-        // Chuyển màn hình sau khi đăng ký
-        // game.setScreen(new LoginScreen(game));
+        gameService.accountService.login(new LoginRequest(username, password));
+        game.setScreen(((Main) game).getScreens().menuScreen);
     }
 
     @Override
@@ -110,5 +109,4 @@ public class LoginScreen extends SampleScreen {
         stage.dispose();
         skin.dispose();
     }
-
 }

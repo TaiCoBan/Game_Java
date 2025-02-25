@@ -2,16 +2,17 @@ package com.btl.menu.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
-import com.btl.menu.service.GameService;
+import com.btl.menu.service.base.GameService;
 
 public abstract class SampleScreen implements Screen {
 
     Game game;
     GameService gameService;
 
-    public SampleScreen(Game game) {
+    public SampleScreen(Game game,
+                        GameService gameService) {
         this.game = game;
-        gameService = new GameService(game);
+        this.gameService = gameService;
     }
 
     @Override
